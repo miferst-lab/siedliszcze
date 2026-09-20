@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Mapa siedliska</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar" id="sidebar">
+      <header class="brand">
+        <h1>Mapa siedliska</h1>
+        <p class="subtitle">Heurystyczna mapa wyboru miejsca na siedlisko w Polsce</p>
+        <p class="listings-stamp" id="listings-stamp">Oferty zebrane: 19.09.2026 (próba rynkowa, sprawdzaj linki)</p>
+      </header>
+
+      <section class="disclaimer">
+        <strong>Uwaga:</strong> strefy są przybliżonymi heurystykami, nie oficjalnymi mapami zagrożeń.
+        Oferty działek to próbka rynkowa — ceny i dostępność mogą się zmienić.
+        Sprawdź źródła:
+        <ul>
+          <li><a href="https://isok.gov.pl/hydroportal.html" target="_blank" rel="noopener">ISOK Hydroportal</a></li>
+          <li><a href="https://www.imgw.pl/" target="_blank" rel="noopener">IMGW</a></li>
+          <li><a href="https://www.gov.pl/web/gddkia" target="_blank" rel="noopener">GDDKiA</a></li>
+          <li><a href="https://mapa.permakultura.edu.pl/" target="_blank" rel="noopener">Mapa permakultury</a></li>
+        </ul>
+      </section>
+
+      <section class="panel">
+        <h2>Warstwy</h2>
+        <ul class="layer-list">
+          <li>
+            <label>
+              <input type="checkbox" data-layer="flood" checked />
+              <span class="swatch flood"></span>
+              Wykluczenia powodziowe
+            </label>
+          </li>
+          <li>
+            <label>
+              <input type="checkbox" data-layer="wind" checked />
+              <span class="swatch wind"></span>
+              Silny wiatr
+            </label>
+          </li>
+          <li>
+            <label>
+              <input type="checkbox" data-layer="geo" checked />
+              <span class="swatch geo"></span>
+              Ryzyko geopolityczne
+            </label>
+          </li>
+          <li>
+            <label>
+              <input type="checkbox" data-layer="highway" checked />
+              <span class="swatch highway"></span>
+              Korytarze S/A (przybliżone)
+            </label>
+          </li>
+          <li>
+            <label>
+              <input type="checkbox" data-layer="preferred" checked />
+              <span class="swatch preferred"></span>
+              Preferowane strefy siedliska
+            </label>
+          </li>
+          <li>
+            <label>
+              <input type="checkbox" data-layer="listings" checked />
+              <span class="swatch listings"></span>
+              Oferty działek
+            </label>
+          </li>
+          <li>
+            <label>
+              <input type="checkbox" data-layer="eco" checked />
+              <span class="swatch eco"></span>
+              Punkty eco / off-grid
+            </label>
+          </li>
+          <li>
+            <label>
+              <input type="checkbox" data-layer="user" checked />
+              <span class="swatch user"></span>
+              Moje punkty
+            </label>
+          </li>
+        </ul>
+        <div class="legend-inline">
+          <span><i class="lg flood"></i> powódź</span>
+          <span><i class="lg wind"></i> wiatr</span>
+          <span><i class="lg geo"></i> granice</span>
+          <span><i class="lg preferred"></i> preferowane</span>
+          <span><i class="lg listings"></i> oferty</span>
+          <span><i class="lg eco"></i> eco</span>
+          <span><i class="lg user"></i> moje</span>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>Filtr ofert</h2>
+        <div class="filter-row">
+          <label for="filter-max-price">Maks. cena (PLN)</label>
+          <input id="filter-max-price" type="number" min="0" step="10000" placeholder="np. 500000" />
+        </div>
+        <div class="filter-row">
+          <label for="filter-min-area">Min. powierzchnia (m²)</label>
+          <input id="filter-min-area" type="number" min="0" step="100" placeholder="np. 2000" />
+        </div>
+        <button type="button" class="btn" id="btn-reset-filters">Wyczyść filtry</button>
+        <p class="filter-meta" id="filter-meta"></p>
+      </section>
+
+      <section class="panel">
+        <h2>Oferty działek <span class="count-badge" id="listings-count"></span></h2>
+        <ul class="listings-list" id="listings-list"></ul>
+      </section>
+
+      <section class="panel">
+        <h2>Kryteria (skrót)</h2>
+        <ul class="criteria">
+          <li>Unikać dolin zalewowych i Żuław</li>
+          <li>Omijać pas silnego wiatru (morze, góry)</li>
+          <li>Trzymać dystans od granic ryzyka geopolitycznego</li>
+          <li>Uwzględniać przyszłe korytarze S/A (~8 km)</li>
+          <li>Szukać spokojnych pasów w głębi lądu (zieleń)</li>
+        </ul>
+      </section>
+
+      <section class="panel">
+        <h2>Moje punkty</h2>
+        <div class="toolbar">
+          <button type="button" class="btn primary" id="btn-add-point">Dodaj punkt</button>
+          <button type="button" class="btn" id="btn-export">Eksport JSON</button>
+          <button type="button" class="btn" id="btn-import">Import JSON</button>
+          <input type="file" id="import-file" accept="application/json,.json" hidden />
+        </div>
+        <p class="mode-hint" id="mode-hint">Kliknij mapę, aby dodać punkt.</p>
+        <ul class="points-list" id="points-list"></ul>
+      </section>
+    </aside>
+
+    <div class="map-wrap">
+      <button type="button" class="btn mobile-toggle" id="mobile-toggle" aria-label="Otwórz menu">Menu</button>
+      <div id="map" role="application" aria-label="Mapa Polski"></div>
+      <div class="legend-float">
+        <strong>Legenda</strong>
+        <div>Esri World Topo · Leaflet</div>
+        <div>Strefy przybliżone · oferty 19.09.2026</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-backdrop" id="point-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal">
+      <h2 id="modal-title">Nowy punkt</h2>
+      <form id="point-form">
+        <div class="form-row">
+          <label for="point-title">Tytuł</label>
+          <input id="point-title" name="title" type="text" required maxlength="120" placeholder="np. Działka koło lasu" />
+        </div>
+        <div class="form-row">
+          <label for="point-notes">Notatki</label>
+          <textarea id="point-notes" name="notes" maxlength="2000" placeholder="Uwagi, dostęp, woda"></textarea>
+        </div>
+        <div class="form-row">
+          <label for="point-tag">Tag</label>
+          <select id="point-tag" name="tag">
+            <option value="kandydat">kandydat</option>
+            <option value="odrzucony">odrzucony</option>
+            <option value="do sprawdzenia">do sprawdzenia</option>
+            <option value="inny">inny</option>
+          </select>
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn" id="modal-cancel">Anuluj</button>
+          <button type="submit" class="btn primary">Zapisz</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+  <script src="data/zones.js"></script>
+  <script src="data/listings.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
