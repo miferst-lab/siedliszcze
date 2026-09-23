@@ -1,8 +1,8 @@
-# Mapa siedliska
+# Siedliszcze
 
 Publiczna mapa heurystyczna wyboru miejsca na wielopokoleniowe siedlisko w Polsce + próbka ofert działek.
 
-**Live:** https://miferst-lab.github.io/mapa-siedliska/
+**Live:** https://miferst-lab.github.io/siedliszcze/
 
 ## Lokalnie
 
