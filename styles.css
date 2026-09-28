@@ -59,6 +59,54 @@ body { overflow: hidden; }
   line-height: 1.35;
 }
 
+.invite-banner {
+  background: linear-gradient(160deg, #1f2a24 0%, #2f6b4f 70%, #3d7d5c 100%);
+  color: #f4f1ea;
+  border-radius: var(--radius);
+  padding: 0.85rem 0.95rem 1rem;
+  box-shadow: var(--shadow);
+}
+.invite-banner h2 {
+  margin: 0 0 0.4rem;
+  font-size: 1.02rem;
+  letter-spacing: -0.01em;
+  text-transform: none;
+  color: #fff;
+}
+.invite-kicker {
+  margin: 0 0 0.25rem;
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #c9e6d6;
+}
+.invite-copy {
+  margin: 0 0 0.7rem;
+  font-size: 0.82rem;
+  line-height: 1.45;
+  color: #e7f0ea;
+}
+.invite-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.invite-btn {
+  align-self: flex-start;
+  text-decoration: none;
+}
+.invite-discord-note {
+  font-size: 0.75rem;
+  line-height: 1.4;
+  color: #d5e8dc;
+}
+.invite-discord-note code {
+  font-size: 0.72rem;
+  background: rgba(255,255,255,0.12);
+  padding: 0.05rem 0.3rem;
+  border-radius: 4px;
+}
+
 .disclaimer {
   background: #fff8e8;
   border: 1px solid #f0dfb4;
@@ -174,6 +222,15 @@ body { overflow: hidden; }
 .btn.primary:hover { background: #255a41; }
 .btn.primary.active {
   box-shadow: 0 0 0 3px rgba(47, 107, 79, 0.25);
+}
+.invite-banner .btn.primary {
+  background: #fff;
+  border-color: #fff;
+  color: #1f2a24;
+}
+.invite-banner .btn.primary:hover {
+  background: #e4efe8;
+  border-color: #e4efe8;
 }
 .btn.danger { color: #9b1c1c; border-color: #f0c4c4; }
 .btn.danger:hover { background: #fff1f1; }
@@ -357,7 +414,7 @@ body { overflow: hidden; }
   }
   .sidebar {
     position: absolute;
-    inset: 0 auto 0 0;
+  inset: 0 auto 0 0;
     width: min(var(--sidebar-w), 92vw);
     transform: translateX(-105%);
     transition: transform 0.2s ease;
