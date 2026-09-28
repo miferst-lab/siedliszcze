@@ -41,68 +41,30 @@
       <section class="panel">
         <h2>Warstwy</h2>
         <ul class="layer-list">
-          <li>
-            <label>
-              <input type="checkbox" data-layer="flood" checked />
-              <span class="swatch flood"></span>
-              Wykluczenia powodziowe
-            </label>
-          </li>
-          <li>
-            <label>
-              <input type="checkbox" data-layer="wind" checked />
-              <span class="swatch wind"></span>
-              Silny wiatr
-            </label>
-          </li>
-          <li>
-            <label>
-              <input type="checkbox" data-layer="geo" checked />
-              <span class="swatch geo"></span>
-              Ryzyko geopolityczne
-            </label>
-          </li>
-          <li>
-            <label>
-              <input type="checkbox" data-layer="highway" checked />
-              <span class="swatch highway"></span>
-              Korytarze S/A (przybliżone)
-            </label>
-          </li>
-          <li>
-            <label>
-              <input type="checkbox" data-layer="preferred" checked />
-              <span class="swatch preferred"></span>
-              Preferowane strefy siedliska
-            </label>
-          </li>
-          <li>
-            <label>
-              <input type="checkbox" data-layer="listings" checked />
-              <span class="swatch listings"></span>
-              Oferty działek
-            </label>
-          </li>
-          <li>
-            <label>
-              <input type="checkbox" data-layer="eco" checked />
-              <span class="swatch eco"></span>
-              Punkty eco / off-grid
-            </label>
-          </li>
-          <li>
-            <label>
-              <input type="checkbox" data-layer="user" checked />
-              <span class="swatch user"></span>
-              Moje punkty
-            </label>
-          </li>
+          <li><label><input type="checkbox" data-layer="flood" checked /><span class="swatch flood"></span> Wykluczenia powodziowe</label></li>
+          <li><label><input type="checkbox" data-layer="wind" checked /><span class="swatch wind"></span> Silny wiatr</label></li>
+          <li><label><input type="checkbox" data-layer="geo" checked /><span class="swatch geo"></span> Ryzyko geopolityczne</label></li>
+          <li><label><input type="checkbox" data-layer="highway" checked /><span class="swatch highway"></span> Korytarze S/A (przybliżone)</label></li>
+          <li><label><input type="checkbox" data-layer="preferred" checked /><span class="swatch preferred"></span> Preferowane strefy siedliska</label></li>
+          <li><label><input type="checkbox" data-layer="noise" /><span class="swatch noise"></span> Hałas i uciążliwość</label></li>
+          <li><label><input type="checkbox" data-layer="ground" /><span class="swatch ground"></span> Susza, grunt, odkrywki</label></li>
+          <li><label><input type="checkbox" data-layer="protect" /><span class="swatch protect"></span> Ochrona, uzdrowiska, wojsko</label></li>
+          <li><label><input type="checkbox" data-layer="climate" /><span class="swatch climate"></span> Smog i zacienione doliny</label></li>
+          <li><label><input type="checkbox" data-layer="asset" /><span class="swatch asset"></span> Atuty: las i gleba</label></li>
+          <li><label><input type="checkbox" data-layer="listings" checked /><span class="swatch listings"></span> Oferty działek</label></li>
+          <li><label><input type="checkbox" data-layer="eco" checked /><span class="swatch eco"></span> Punkty eco / off-grid</label></li>
+          <li><label><input type="checkbox" data-layer="user" checked /><span class="swatch user"></span> Moje punkty</label></li>
         </ul>
         <div class="legend-inline">
           <span><i class="lg flood"></i> powódź</span>
           <span><i class="lg wind"></i> wiatr</span>
           <span><i class="lg geo"></i> granice</span>
           <span><i class="lg preferred"></i> preferowane</span>
+          <span><i class="lg noise"></i> hałas</span>
+          <span><i class="lg ground"></i> grunt</span>
+          <span><i class="lg protect"></i> ochrona</span>
+          <span><i class="lg climate"></i> smog</span>
+          <span><i class="lg asset"></i> atuty</span>
           <span><i class="lg listings"></i> oferty</span>
           <span><i class="lg eco"></i> eco</span>
           <span><i class="lg user"></i> moje</span>
@@ -136,6 +98,9 @@
           <li>Trzymać dystans od granic ryzyka geopolitycznego</li>
           <li>Uwzględniać przyszłe korytarze S/A (~8 km)</li>
           <li>Szukać spokojnych pasów w głębi lądu (zieleń)</li>
+          <li>Omijać lotniska, korytarze towarowe i odkrywki</li>
+          <li>Uwzględniać parki, uzdrowiska i poligony</li>
+          <li>Sprawdzać smog w kotlinach i suszę na Kujawach</li>
         </ul>
       </section>
 
@@ -194,6 +159,7 @@
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
   <script src="data/zones.js"></script>
+  <script src="data/extra-zones.js"></script>
   <script src="data/listings.js"></script>
   <script src="app.js"></script>
 </body>
