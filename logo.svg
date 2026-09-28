@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Siedliszcze">
+  <rect width="64" height="64" rx="14" fill="#2f6b4f"/>
+  <path d="M10 46c6-9 14-14 22-14s16 5 22 14" fill="#86efac" opacity=".35"/>
+  <path d="M8 48h48" stroke="#d8f3e2" stroke-width="2.2" stroke-linecap="round" opacity=".55"/>
+  <path d="M18 40l14-16 14 16v10H18z" fill="#fffcf6"/>
+  <path d="M26 50v-10h12v10" fill="#2f6b4f"/>
+  <circle cx="46" cy="20" r="7" fill="#86efac"/>
+  <path d="M46 27v9" stroke="#14532d" stroke-width="2.2" stroke-linecap="round"/>
+</svg>
