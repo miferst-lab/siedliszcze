@@ -14,7 +14,7 @@
 
   L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}", {
     maxZoom: 19,
-    attribution: "Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ, TomTom, Intermap, iPC, USGS, FAO, NPS, NRCAN, GeoBase, Kadaster NL, Ordnance Survey, Esri Japan, METI, Esri China (Hong Kong), and the GIS User Community"
+    attribution: "Tiles \u00a9 Esri \u2014 Esri, DeLorme, NAVTEQ, TomTom, Intermap, iPC, USGS, FAO, NPS, NRCAN, GeoBase, Kadaster NL, Ordnance Survey, Esri Japan, METI, Esri China (Hong Kong), and the GIS User Community"
   }).addTo(map);
 
   const styleFlood = (feature) => ({
@@ -74,7 +74,7 @@
     type: "FeatureCollection",
     features: HIGHWAY_CORRIDORS.features.map((f) => ({
       type: "Feature",
-      properties: { ...f.properties, name: (f.properties.name || "Korytarz") + " — bufor ~8 km" },
+      properties: { ...f.properties, name: (f.properties.name || "Korytarz") + " \u2014 bufor ~8 km" },
       geometry: { type: "Polygon", coordinates: [bufferLine(f.geometry.coordinates, HIGHWAY_BUFFER_DEG)] }
     }))
   };
@@ -111,7 +111,11 @@
     return m2.toLocaleString("pl-PL") + " m\u00b2";
   }
   function escapeHtml(str) {
-    return String(str || "").replace(/&/g, "&").replace(/</g, "<").replace(/>/g, ">").replace(/"/g, """);
+    return String(str || "")
+      .replace(/&/g, "&" + "amp;")
+      .replace(/</g, "&" + "lt;")
+      .replace(/>/g, "&" + "gt;")
+      .replace(/"/g, "&" + "quot;");
   }
   function listingPopupHtml(p) {
     return (
