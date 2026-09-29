@@ -85,7 +85,7 @@
   const highwayLineLayer = L.geoJSON(HIGHWAY_CORRIDORS, { style: styleHighway, onEachFeature: bindZonePopup });
   const highwayLayer = L.layerGroup([highwayBufferLayer, highwayLineLayer]);
 
-  const ecoIcon = L.divIcon({ className: "", html: '<div class="eco-icon" title="Eco">🌱</div>', iconSize: [28, 28], iconAnchor: [14, 14], popupAnchor: [0, -14] });
+  const ecoIcon = L.divIcon({ className: "", html: '<div class="eco-icon" title="Eco">\ud83c\udf31</div>', iconSize: [28, 28], iconAnchor: [14, 14], popupAnchor: [0, -14] });
   const ecoLayer = L.geoJSON(ECO_MARKERS, {
     pointToLayer: (feature, latlng) => L.marker(latlng, { icon: ecoIcon }),
     onEachFeature: (feature, layer) => {
@@ -98,17 +98,17 @@
   });
 
   function listingIcon() {
-    return L.divIcon({ className: "", html: '<div class="listing-icon" title="Oferta">🏠</div>', iconSize: [30, 30], iconAnchor: [15, 15], popupAnchor: [0, -15] });
+    return L.divIcon({ className: "", html: '<div class="listing-icon" title="Oferta">\ud83c\udfe0</div>', iconSize: [30, 30], iconAnchor: [15, 15], popupAnchor: [0, -15] });
   }
   function formatPrice(n) {
-    if (n == null || !Number.isFinite(Number(n))) return "—";
-    return Number(n).toLocaleString("pl-PL") + " zł";
+    if (n == null || !Number.isFinite(Number(n))) return "\u2014";
+    return Number(n).toLocaleString("pl-PL") + " z\u0142";
   }
   function formatArea(n) {
-    if (n == null || !Number.isFinite(Number(n))) return "—";
+    if (n == null || !Number.isFinite(Number(n))) return "\u2014";
     const m2 = Number(n);
-    if (m2 >= 10000) return (m2 / 10000).toLocaleString("pl-PL", { maximumFractionDigits: 2 }) + " ha (" + m2.toLocaleString("pl-PL") + " m²)";
-    return m2.toLocaleString("pl-PL") + " m²";
+    if (m2 >= 10000) return (m2 / 10000).toLocaleString("pl-PL", { maximumFractionDigits: 2 }) + " ha (" + m2.toLocaleString("pl-PL") + " m\u00b2)";
+    return m2.toLocaleString("pl-PL") + " m\u00b2";
   }
   function escapeHtml(str) {
     return String(str || "").replace(/&/g, "&").replace(/</g, "<").replace(/>/g, ">").replace(/"/g, """);
@@ -116,11 +116,11 @@
   function listingPopupHtml(p) {
     return (
       `<strong>${escapeHtml(p.name)}</strong><br>` +
-      `<span class="popup-price">${escapeHtml(formatPrice(p.price))}</span> · ${escapeHtml(formatArea(p.area))}<br>` +
+      `<span class="popup-price">${escapeHtml(formatPrice(p.price))}</span> \u00b7 ${escapeHtml(formatArea(p.area))}<br>` +
       `<small>${escapeHtml(p.location || "")}</small>` +
       (p.note ? `<br><small>${escapeHtml(p.note)}</small>` : "") +
-      (p.source ? `<br><small>Źródło: ${escapeHtml(p.source)} · widziane ${escapeHtml(p.seen || "")}</small>` : "") +
-      (p.url ? `<br><a href="${escapeHtml(p.url)}" target="_blank" rel="noopener">Otwórz ogłoszenie ↗</a>` : "")
+      (p.source ? `<br><small>\u0179r\u00f3d\u0142o: ${escapeHtml(p.source)} \u00b7 widziane ${escapeHtml(p.seen || "")}</small>` : "") +
+      (p.url ? `<br><a href="${escapeHtml(p.url)}" target="_blank" rel="noopener">Otw\u00f3rz og\u0142oszenie \u2197</a>` : "")
     );
   }
 
@@ -166,11 +166,11 @@
       li.dataset.id = id;
       li.innerHTML = `
         <h3>${escapeHtml(p.name)}</h3>
-        <p class="listing-meta"><strong>${escapeHtml(formatPrice(p.price))}</strong> · ${escapeHtml(formatArea(p.area))}</p>
+        <p class="listing-meta"><strong>${escapeHtml(formatPrice(p.price))}</strong> \u00b7 ${escapeHtml(formatArea(p.area))}</p>
         <p class="listing-loc">${escapeHtml(p.location || "")}</p>
         ${p.note ? `<p class="listing-note">${escapeHtml(p.note)}</p>` : ""}
         <div class="point-actions">
-          <button type="button" class="btn small" data-act="focus">Pokaż</button>
+          <button type="button" class="btn small" data-act="focus">Poka\u017c</button>
           ${p.url ? `<a class="btn small" href="${escapeHtml(p.url)}" target="_blank" rel="noopener">Link</a>` : ""}
         </div>`;
       li.querySelector('[data-act="focus"]').addEventListener("click", () => focusListing(id));
@@ -178,7 +178,7 @@
       listEl.appendChild(li);
     });
     countEl.textContent = shown + "/" + all.length;
-    metaEl.textContent = shown === all.length ? "Pokazano wszystkie oferty z próbki." : "Filtr aktywny — " + shown + " z " + all.length + " ofert.";
+    metaEl.textContent = shown === all.length ? "Pokazano wszystkie oferty z pr\u00f3bki." : "Filtr aktywny \u2014 " + shown + " z " + all.length + " ofert.";
   }
   function highlightListingCard(id) {
     document.querySelectorAll(".listing-card").forEach((el) => { el.classList.toggle("active", el.dataset.id === id); });
@@ -242,7 +242,7 @@
   function savePoints() { localStorage.setItem(STORAGE_KEY, JSON.stringify(points)); }
   function uid() { return "p_" + Date.now().toString(36) + "_" + Math.random().toString(36).slice(2, 8); }
   function userIcon() {
-    return L.divIcon({ className: "", html: '<div class="user-icon">📍</div>', iconSize: [26, 26], iconAnchor: [13, 13], popupAnchor: [0, -13] });
+    return L.divIcon({ className: "", html: '<div class="user-icon">\ud83d\udccd</div>', iconSize: [26, 26], iconAnchor: [13, 13], popupAnchor: [0, -13] });
   }
   function renderMarkers() {
     userLayer.clearLayers();
@@ -261,12 +261,12 @@
       li.dataset.id = pt.id;
       li.innerHTML = `
         <h3>${escapeHtml(pt.title)}</h3>
-        <p class="point-meta"><span class="tag ${TAG_CLASS[pt.tag] || "inny"}">${escapeHtml(pt.tag)}</span> · ${pt.lat.toFixed(4)}, ${pt.lng.toFixed(4)}</p>
+        <p class="point-meta"><span class="tag ${TAG_CLASS[pt.tag] || "inny"}">${escapeHtml(pt.tag)}</span> \u00b7 ${pt.lat.toFixed(4)}, ${pt.lng.toFixed(4)}</p>
         ${pt.notes ? `<p class="point-notes">${escapeHtml(pt.notes)}</p>` : ""}
         <div class="point-actions">
-          <button type="button" class="btn small" data-act="focus">Pokaż</button>
+          <button type="button" class="btn small" data-act="focus">Poka\u017c</button>
           <button type="button" class="btn small" data-act="edit">Edytuj</button>
-          <button type="button" class="btn small danger" data-act="delete">Usuń</button>
+          <button type="button" class="btn small danger" data-act="delete">Usu\u0144</button>
         </div>`;
       li.querySelector('[data-act="focus"]').addEventListener("click", () => focusPoint(pt.id));
       li.querySelector('[data-act="edit"]').addEventListener("click", () => openEdit(pt.id));
@@ -323,7 +323,7 @@
     openModal();
   }
   function deletePoint(id) {
-    if (!confirm("Usunąć ten punkt?")) return;
+    if (!confirm("Usun\u0105\u0107 ten punkt?")) return;
     points = points.filter((p) => p.id !== id);
     savePoints(); renderMarkers(); renderList();
   }
@@ -349,7 +349,7 @@
         createdAt: p.createdAt || new Date().toISOString()
       })).filter((p) => Number.isFinite(p.lat) && Number.isFinite(p.lng));
       savePoints(); renderMarkers(); renderList();
-    } catch (err) { alert("Nie udało się zaimportować pliku: " + err.message); }
+    } catch (err) { alert("Nie uda\u0142o si\u0119 zaimportowa\u0107 pliku: " + err.message); }
     importInput.value = "";
   });
   const sidebar = document.getElementById("sidebar");
