@@ -185,6 +185,39 @@ const EU_FLOOD_ZONES = {
           [-7.5, 38.7], [-8.5, 38.9], [-9.2, 39.2], [-9.0, 39.5]
         ]]
       }
+    },
+    {
+      type: "Feature",
+      properties: {
+        name: "Sava / Drava corridor (Slovenia, Croatia, Serbia)",
+        risk: "flood",
+        level: "high",
+        description: "Sava and Drava valleys — significant flood risk."
+      },
+      geometry: {
+        type: "Polygon",
+        coordinates: [[
+          [14.5, 46.5], [16.0, 46.3], [17.5, 46.0], [19.0, 45.5],
+          [20.5, 45.0], [20.0, 44.7], [18.5, 45.0], [17.0, 45.3],
+          [15.5, 45.8], [14.5, 46.2], [14.5, 46.5]
+        ]]
+      }
+    },
+    {
+      type: "Feature",
+      properties: {
+        name: "Danube in Serbia / Vojvodina",
+        risk: "flood",
+        level: "high",
+        description: "Lower Danube and Vojvodina plain — flood-prone."
+      },
+      geometry: {
+        type: "Polygon",
+        coordinates: [[
+          [19.0, 45.5], [20.5, 45.8], [21.5, 45.3], [21.0, 44.8],
+          [19.8, 44.9], [19.0, 45.2], [19.0, 45.5]
+        ]]
+      }
     }
   ]
 };
@@ -271,6 +304,22 @@ const EU_WIND_ZONES = {
           [-9.2, 38.5], [-9.5, 37.5], [-9.0, 37.0], [-8.5, 37.5],
           [-8.2, 39.0], [-8.0, 40.5], [-8.5, 41.5], [-9.0, 42.2],
           [-9.5, 42.0]
+        ]]
+      }
+    },
+    {
+      type: "Feature",
+      properties: {
+        name: "Dinaric Alps / Adriatic coast",
+        risk: "wind",
+        description: "Dinaric mountain belt and exposed Adriatic coast (bora)."
+      },
+      geometry: {
+        type: "Polygon",
+        coordinates: [[
+          [13.5, 45.5], [15.0, 45.0], [16.5, 44.5], [17.5, 43.5],
+          [18.5, 42.5], [18.0, 42.0], [16.5, 42.5], [15.0, 43.5],
+          [14.0, 44.5], [13.5, 45.2], [13.5, 45.5]
         ]]
       }
     }
@@ -413,6 +462,66 @@ const EU_PREFERRED_ZONES = {
         coordinates: [[
           [-7.8, 40.8], [-6.8, 41.0], [-6.5, 40.3], [-7.0, 39.8],
           [-7.8, 40.0], [-8.0, 40.5], [-7.8, 40.8]
+        ]]
+      }
+    },
+    {
+      type: "Feature",
+      properties: {
+        name: "Slovenia — inland (Dolenjska / Styria)",
+        preferred: true,
+        description: "Quieter inland Slovenia, away from the Adriatic and Alps."
+      },
+      geometry: {
+        type: "Polygon",
+        coordinates: [[
+          [14.8, 46.3], [15.5, 46.4], [16.0, 46.0], [15.8, 45.7],
+          [15.2, 45.6], [14.8, 45.9], [14.8, 46.3]
+        ]]
+      }
+    },
+    {
+      type: "Feature",
+      properties: {
+        name: "Croatia — Slavonia inland",
+        preferred: true,
+        description: "Inland Slavonia, away from the Adriatic coast."
+      },
+      geometry: {
+        type: "Polygon",
+        coordinates: [[
+          [17.0, 45.8], [18.0, 46.0], [18.8, 45.5], [18.5, 45.0],
+          [17.5, 45.2], [17.0, 45.5], [17.0, 45.8]
+        ]]
+      }
+    },
+    {
+      type: "Feature",
+      properties: {
+        name: "Serbia — Šumadija / central inland",
+        preferred: true,
+        description: "Quieter central Serbia, away from major river corridors."
+      },
+      geometry: {
+        type: "Polygon",
+        coordinates: [[
+          [20.0, 44.5], [21.0, 44.8], [21.5, 44.2], [21.0, 43.8],
+          [20.2, 43.9], [19.8, 44.2], [20.0, 44.5]
+        ]]
+      }
+    },
+    {
+      type: "Feature",
+      properties: {
+        name: "Bosnia — central inland",
+        preferred: true,
+        description: "Inland Bosnia, away from major river valleys."
+      },
+      geometry: {
+        type: "Polygon",
+        coordinates: [[
+          [17.5, 44.5], [18.2, 44.7], [18.8, 44.2], [18.5, 43.8],
+          [17.8, 43.9], [17.5, 44.2], [17.5, 44.5]
         ]]
       }
     }
