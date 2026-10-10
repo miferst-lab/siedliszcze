@@ -140,32 +140,49 @@ const EU_FLOOD_ZONES = {
     {
       type: "Feature",
       properties: {
-        name: "Ebro / Guadalquivir (Spain)",
+        name: "Ebro corridor (Spain)",
         risk: "flood",
         level: "medium",
-        description: "Approximate river corridors in Spain."
+        description: "Ebro river corridor — flood risk."
       },
       geometry: {
         type: "Polygon",
         coordinates: [[
-          [-1.0, 42.0], [0.5, 41.5], [1.5, 41.0], [0.5, 40.5],
-          [-1.0, 40.8], [-1.5, 41.5], [-1.0, 42.0]
+          [-2.5, 42.8], [-1.0, 42.5], [0.5, 42.0], [1.5, 41.5],
+          [1.8, 41.0], [1.0, 40.7], [-0.5, 41.2], [-1.8, 41.8],
+          [-2.8, 42.3], [-2.5, 42.8]
         ]]
       }
     },
     {
       type: "Feature",
       properties: {
-        name: "Loire / Seine (France, approx.)",
+        name: "Guadalquivir (Andalusia)",
         risk: "flood",
         level: "medium",
-        description: "Approximate river corridors in France."
+        description: "Guadalquivir valley — flood and flash-flood risk."
       },
       geometry: {
         type: "Polygon",
         coordinates: [[
-          [0.5, 47.5], [2.0, 48.0], [3.5, 48.5], [4.0, 48.0],
-          [2.5, 47.5], [1.0, 47.0], [0.5, 47.5]
+          [-6.5, 37.5], [-5.5, 37.8], [-4.5, 37.5], [-4.0, 37.0],
+          [-4.5, 36.7], [-5.5, 36.8], [-6.5, 37.0], [-6.5, 37.5]
+        ]]
+      }
+    },
+    {
+      type: "Feature",
+      properties: {
+        name: "Tagus / Douro lowlands (Portugal & Spain)",
+        risk: "flood",
+        level: "medium",
+        description: "Approximate lower Tagus and Douro corridors."
+      },
+      geometry: {
+        type: "Polygon",
+        coordinates: [[
+          [-9.0, 39.5], [-8.0, 39.8], [-7.0, 39.5], [-6.5, 39.0],
+          [-7.5, 38.7], [-8.5, 38.9], [-9.2, 39.2], [-9.0, 39.5]
         ]]
       }
     }
@@ -218,24 +235,42 @@ const EU_WIND_ZONES = {
       geometry: {
         type: "Polygon",
         coordinates: [[
-          [-1.5, 43.0], [0.5, 43.2], [2.0, 42.8], [3.0, 42.5],
-          [2.5, 42.2], [1.0, 42.3], [-0.5, 42.5], [-1.5, 43.0]
+          [-1.8, 43.2], [0.5, 43.3], [2.5, 42.9], [3.2, 42.4],
+          [2.2, 42.1], [0.8, 42.2], [-1.0, 42.6], [-1.8, 43.2]
         ]]
       }
     },
     {
       type: "Feature",
       properties: {
-        name: "Mediterranean coast (approx.)",
+        name: "Mediterranean coast (Spain, France, Italy)",
         risk: "wind",
-        description: "Coastal wind belt of the Mediterranean."
+        description: "Coastal wind belt of the western Mediterranean."
       },
       geometry: {
         type: "Polygon",
         coordinates: [[
-          [-5.0, 36.5], [0.0, 37.5], [5.0, 38.0], [10.0, 38.5],
-          [15.0, 38.0], [18.0, 37.0], [15.0, 36.5], [10.0, 36.8],
-          [5.0, 36.5], [0.0, 36.2], [-5.0, 36.5]
+          [-6.0, 36.8], [-2.0, 37.5], [2.0, 38.0], [6.0, 38.5],
+          [10.0, 38.8], [14.0, 38.2], [16.0, 37.5], [12.0, 37.0],
+          [8.0, 36.8], [4.0, 36.5], [0.0, 36.6], [-4.0, 36.5],
+          [-6.0, 36.8]
+        ]]
+      }
+    },
+    {
+      type: "Feature",
+      properties: {
+        name: "Atlantic coast of Iberia",
+        risk: "wind",
+        description: "Exposed Atlantic coast of Portugal and northern Spain."
+      },
+      geometry: {
+        type: "Polygon",
+        coordinates: [[
+          [-9.5, 42.0], [-8.5, 41.5], [-8.0, 40.5], [-8.5, 39.0],
+          [-9.2, 38.5], [-9.5, 37.5], [-9.0, 37.0], [-8.5, 37.5],
+          [-8.2, 39.0], [-8.0, 40.5], [-8.5, 41.5], [-9.0, 42.2],
+          [-9.5, 42.0]
         ]]
       }
     }
@@ -308,15 +343,31 @@ const EU_PREFERRED_ZONES = {
     {
       type: "Feature",
       properties: {
-        name: "Spain — Meseta inland",
+        name: "Spain — Meseta (Castile inland)",
         preferred: true,
-        description: "Central Spanish plateau, away from coasts."
+        description: "Central Spanish plateau — quieter inland areas."
       },
       geometry: {
         type: "Polygon",
         coordinates: [[
-          [-4.5, 41.0], [-2.5, 41.5], [-0.5, 41.2], [-1.0, 40.0],
-          [-3.0, 39.5], [-5.0, 40.0], [-4.5, 41.0]
+          [-5.5, 41.5], [-3.5, 42.0], [-1.5, 41.5], [-0.5, 40.5],
+          [-1.5, 39.5], [-3.5, 39.0], [-5.5, 39.5], [-6.0, 40.5],
+          [-5.5, 41.5]
+        ]]
+      }
+    },
+    {
+      type: "Feature",
+      properties: {
+        name: "Spain — Extremadura inland",
+        preferred: true,
+        description: "Quieter inland Extremadura."
+      },
+      geometry: {
+        type: "Polygon",
+        coordinates: [[
+          [-7.0, 39.5], [-5.5, 40.0], [-4.5, 39.5], [-5.0, 38.8],
+          [-6.0, 38.5], [-7.0, 38.8], [-7.2, 39.2], [-7.0, 39.5]
         ]]
       }
     },
@@ -340,13 +391,28 @@ const EU_PREFERRED_ZONES = {
       properties: {
         name: "Portugal — Alentejo inland",
         preferred: true,
-        description: "Quieter inland south of Portugal."
+        description: "Quieter inland Alentejo, away from the coast."
       },
       geometry: {
         type: "Polygon",
         coordinates: [[
-          [-8.5, 38.5], [-7.5, 38.8], [-7.0, 38.2], [-7.5, 37.6],
-          [-8.5, 37.8], [-8.8, 38.2], [-8.5, 38.5]
+          [-8.2, 39.0], [-7.2, 39.2], [-6.8, 38.5], [-7.2, 37.8],
+          [-8.0, 37.6], [-8.5, 38.2], [-8.5, 38.7], [-8.2, 39.0]
+        ]]
+      }
+    },
+    {
+      type: "Feature",
+      properties: {
+        name: "Portugal — Beira Interior",
+        preferred: true,
+        description: "Inland Beira, away from the Atlantic coast."
+      },
+      geometry: {
+        type: "Polygon",
+        coordinates: [[
+          [-7.8, 40.8], [-6.8, 41.0], [-6.5, 40.3], [-7.0, 39.8],
+          [-7.8, 40.0], [-8.0, 40.5], [-7.8, 40.8]
         ]]
       }
     }
