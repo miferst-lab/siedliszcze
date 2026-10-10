@@ -1,6 +1,6 @@
 /**
- * Przybliżone strefy heurystyczne dla Europy — NIE oficjalne dane.
- * Współrzędne WGS84 [lon, lat]. Zakres orientacyjny: -10–40 E, 35–71 N.
+ * Approximate heuristic zones for Europe — NOT official data.
+ * Coordinates WGS84 [lon, lat]. Coverage: roughly -10–40 E, 35–71 N.
  */
 
 const EU_GEO_RISK_ZONES = {
@@ -9,9 +9,9 @@ const EU_GEO_RISK_ZONES = {
     {
       type: "Feature",
       properties: {
-        name: "Ukraina — strefa podwyższonego ryzyka",
+        name: "Ukraine — elevated risk",
         risk: "geo",
-        description: "Cała Ukraina i pas przygraniczny. Sytuacja dynamiczna."
+        description: "All of Ukraine and border belt. Situation is dynamic."
       },
       geometry: {
         type: "Polygon",
@@ -28,9 +28,9 @@ const EU_GEO_RISK_ZONES = {
     {
       type: "Feature",
       properties: {
-        name: "Białoruś — strefa podwyższonego ryzyka",
+        name: "Belarus — elevated risk",
         risk: "geo",
-        description: "Cała Białoruś i pas przygraniczny."
+        description: "All of Belarus and border belt."
       },
       geometry: {
         type: "Polygon",
@@ -45,9 +45,9 @@ const EU_GEO_RISK_ZONES = {
     {
       type: "Feature",
       properties: {
-        name: "Pas przygraniczny UA/BY (Polska, Litwa, Łotwa)",
+        name: "UA/BY border belt (Poland, Lithuania, Latvia)",
         risk: "geo",
-        description: "Pas ostrożności ~40–60 km od granic z UA i BY."
+        description: "Caution belt ~40–60 km from UA and BY borders."
       },
       geometry: {
         type: "Polygon",
@@ -69,10 +69,10 @@ const EU_FLOOD_ZONES = {
     {
       type: "Feature",
       properties: {
-        name: "Dolina Dunaju (przybliżona)",
+        name: "Danube valley (approx.)",
         risk: "flood",
         level: "high",
-        description: "Korytarz doliny Dunaju — ryzyko powodziowe."
+        description: "Danube corridor — flood risk."
       },
       geometry: {
         type: "Polygon",
@@ -89,10 +89,10 @@ const EU_FLOOD_ZONES = {
     {
       type: "Feature",
       properties: {
-        name: "Dolina Renu (przybliżona)",
+        name: "Rhine valley (approx.)",
         risk: "flood",
         level: "high",
-        description: "Korytarz doliny Renu."
+        description: "Rhine corridor."
       },
       geometry: {
         type: "Polygon",
@@ -106,10 +106,10 @@ const EU_FLOOD_ZONES = {
     {
       type: "Feature",
       properties: {
-        name: "Delta Renu / Niderlandy",
+        name: "Rhine delta / Netherlands",
         risk: "flood",
         level: "high",
-        description: "Niskie tereny Niderlandów — zagrożenie zalewowe."
+        description: "Low-lying Netherlands — flood risk."
       },
       geometry: {
         type: "Polygon",
@@ -117,6 +117,55 @@ const EU_FLOOD_ZONES = {
           [3.5, 53.5], [5.0, 53.3], [6.5, 53.0], [7.0, 52.5],
           [6.8, 52.0], [5.5, 51.8], [4.0, 51.5], [3.5, 51.8],
           [3.2, 52.5], [3.5, 53.5]
+        ]]
+      }
+    },
+    {
+      type: "Feature",
+      properties: {
+        name: "Po valley (Italy)",
+        risk: "flood",
+        level: "high",
+        description: "Po plain — frequent flooding."
+      },
+      geometry: {
+        type: "Polygon",
+        coordinates: [[
+          [7.5, 45.5], [9.0, 45.6], [10.5, 45.5], [12.0, 45.2],
+          [12.5, 44.8], [11.5, 44.5], [10.0, 44.6], [8.5, 44.8],
+          [7.5, 45.2], [7.5, 45.5]
+        ]]
+      }
+    },
+    {
+      type: "Feature",
+      properties: {
+        name: "Ebro / Guadalquivir (Spain)",
+        risk: "flood",
+        level: "medium",
+        description: "Approximate river corridors in Spain."
+      },
+      geometry: {
+        type: "Polygon",
+        coordinates: [[
+          [-1.0, 42.0], [0.5, 41.5], [1.5, 41.0], [0.5, 40.5],
+          [-1.0, 40.8], [-1.5, 41.5], [-1.0, 42.0]
+        ]]
+      }
+    },
+    {
+      type: "Feature",
+      properties: {
+        name: "Loire / Seine (France, approx.)",
+        risk: "flood",
+        level: "medium",
+        description: "Approximate river corridors in France."
+      },
+      geometry: {
+        type: "Polygon",
+        coordinates: [[
+          [0.5, 47.5], [2.0, 48.0], [3.5, 48.5], [4.0, 48.0],
+          [2.5, 47.5], [1.0, 47.0], [0.5, 47.5]
         ]]
       }
     }
@@ -129,9 +178,9 @@ const EU_WIND_ZONES = {
     {
       type: "Feature",
       properties: {
-        name: "Wybrzeże atlantyckie i Morze Północne",
+        name: "Atlantic coast & North Sea",
         risk: "wind",
-        description: "Pas silnych wiatrów nadmorskich."
+        description: "Strong coastal winds."
       },
       geometry: {
         type: "Polygon",
@@ -146,9 +195,9 @@ const EU_WIND_ZONES = {
     {
       type: "Feature",
       properties: {
-        name: "Alpy (pas górski)",
+        name: "Alps",
         risk: "wind",
-        description: "Pas alpejski — silne wiatry lokalne."
+        description: "Alpine belt — strong local winds."
       },
       geometry: {
         type: "Polygon",
@@ -156,6 +205,37 @@ const EU_WIND_ZONES = {
           [5.5, 46.5], [7.0, 47.0], [9.0, 47.2], [11.0, 47.0],
           [13.0, 46.8], [14.5, 46.5], [15.0, 46.0], [13.5, 45.8],
           [11.0, 45.5], [8.5, 45.8], [6.5, 46.0], [5.5, 46.5]
+        ]]
+      }
+    },
+    {
+      type: "Feature",
+      properties: {
+        name: "Pyrenees",
+        risk: "wind",
+        description: "Pyrenees mountain belt."
+      },
+      geometry: {
+        type: "Polygon",
+        coordinates: [[
+          [-1.5, 43.0], [0.5, 43.2], [2.0, 42.8], [3.0, 42.5],
+          [2.5, 42.2], [1.0, 42.3], [-0.5, 42.5], [-1.5, 43.0]
+        ]]
+      }
+    },
+    {
+      type: "Feature",
+      properties: {
+        name: "Mediterranean coast (approx.)",
+        risk: "wind",
+        description: "Coastal wind belt of the Mediterranean."
+      },
+      geometry: {
+        type: "Polygon",
+        coordinates: [[
+          [-5.0, 36.5], [0.0, 37.5], [5.0, 38.0], [10.0, 38.5],
+          [15.0, 38.0], [18.0, 37.0], [15.0, 36.5], [10.0, 36.8],
+          [5.0, 36.5], [0.0, 36.2], [-5.0, 36.5]
         ]]
       }
     }
@@ -168,9 +248,9 @@ const EU_PREFERRED_ZONES = {
     {
       type: "Feature",
       properties: {
-        name: "Czechy — południowe Morawy (głąb)",
+        name: "Czechia — southern Moravia (inland)",
         preferred: true,
-        description: "Spokojniejszy pas w głębi Czech, z dala od granic."
+        description: "Quieter inland belt in Czechia."
       },
       geometry: {
         type: "Polygon",
@@ -183,9 +263,9 @@ const EU_PREFERRED_ZONES = {
     {
       type: "Feature",
       properties: {
-        name: "Słowacja — środek (z dala od UA)",
+        name: "Slovakia — centre",
         preferred: true,
-        description: "Centralna Słowacja, z dala od granicy ukraińskiej."
+        description: "Central Slovakia, away from the Ukrainian border."
       },
       geometry: {
         type: "Polygon",
@@ -198,15 +278,75 @@ const EU_PREFERRED_ZONES = {
     {
       type: "Feature",
       properties: {
-        name: "Niemcy — środek (Bawaria/Turyngia inland)",
+        name: "Germany — centre (Bavaria/Thuringia inland)",
         preferred: true,
-        description: "Spokojniejszy pas w głębi Niemiec."
+        description: "Quieter inland belt in Germany."
       },
       geometry: {
         type: "Polygon",
         coordinates: [[
           [10.5, 50.5], [11.5, 50.8], [12.5, 50.5], [12.8, 49.8],
           [12.0, 49.5], [11.0, 49.6], [10.5, 50.0], [10.5, 50.5]
+        ]]
+      }
+    },
+    {
+      type: "Feature",
+      properties: {
+        name: "France — Massif Central inland",
+        preferred: true,
+        description: "Quieter inland uplands of central France."
+      },
+      geometry: {
+        type: "Polygon",
+        coordinates: [[
+          [2.0, 45.5], [3.5, 45.8], [4.5, 45.5], [4.8, 44.8],
+          [3.5, 44.5], [2.2, 44.8], [2.0, 45.5]
+        ]]
+      }
+    },
+    {
+      type: "Feature",
+      properties: {
+        name: "Spain — Meseta inland",
+        preferred: true,
+        description: "Central Spanish plateau, away from coasts."
+      },
+      geometry: {
+        type: "Polygon",
+        coordinates: [[
+          [-4.5, 41.0], [-2.5, 41.5], [-0.5, 41.2], [-1.0, 40.0],
+          [-3.0, 39.5], [-5.0, 40.0], [-4.5, 41.0]
+        ]]
+      }
+    },
+    {
+      type: "Feature",
+      properties: {
+        name: "Italy — Umbria / Marche inland",
+        preferred: true,
+        description: "Quieter inland hills of central Italy."
+      },
+      geometry: {
+        type: "Polygon",
+        coordinates: [[
+          [12.2, 43.5], [13.2, 43.8], [13.8, 43.2], [13.5, 42.6],
+          [12.5, 42.8], [12.0, 43.2], [12.2, 43.5]
+        ]]
+      }
+    },
+    {
+      type: "Feature",
+      properties: {
+        name: "Portugal — Alentejo inland",
+        preferred: true,
+        description: "Quieter inland south of Portugal."
+      },
+      geometry: {
+        type: "Polygon",
+        coordinates: [[
+          [-8.5, 38.5], [-7.5, 38.8], [-7.0, 38.2], [-7.5, 37.6],
+          [-8.5, 37.8], [-8.8, 38.2], [-8.5, 38.5]
         ]]
       }
     }
