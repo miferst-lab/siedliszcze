@@ -1,6 +1,11 @@
 (function () {
   "use strict";
 
+  const SUPABASE_URL = "https://hwurqmckopoyrsmxjeie.supabase.co";
+  const SUPABASE_ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh3dXJxbWNrb3BveXJzbXhqZWllIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTE2MzkxMzEsImV4cCI6MjEwNzIxNTEzMX0.kA3ztfx8XxaWfTegrCYZLqkuw42zaYy8x85KHdR_ov4";
+
+  const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
+
   const STORAGE_KEY = "siedlisko-map-points-v1";
   const TAGS = ["kandydat", "odrzucony", "do sprawdzenia", "inny"];
   const TAG_CLASS = {
@@ -14,7 +19,7 @@
 
   L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}", {
     maxZoom: 19,
-    attribution: "Tiles \u00a9 Esri \u2014 Esri, DeLorme, NAVTEQ, TomTom, Intermap, iPC, USGS, FAO, NPS, NRCAN, GeoBase, Kadaster NL, Ordnance Survey, Esri Japan, METI, Esri China (Hong Kong), and the GIS User Community"
+    attribution: "Tiles © Esri — Esri, DeLorme, NAVTEQ, TomTom, Intermap, iPC, USGS, FAO, NPS, NRCAN, GeoBase, Kadaster NL, Ordnance Survey, Esri Japan, METI, Esri China (Hong Kong), and the GIS User Community"
   }).addTo(map);
 
   const styleFlood = (feature) => ({
@@ -74,7 +79,7 @@
     type: "FeatureCollection",
     features: HIGHWAY_CORRIDORS.features.map((f) => ({
       type: "Feature",
-      properties: { ...f.properties, name: (f.properties.name || "Korytarz") + " \u2014 bufor ~8 km" },
+      properties: { ...f.properties, name: (f.properties.name || "Korytarz") + " — bufor ~8 km" },
       geometry: { type: "Polygon", coordinates: [bufferLine(f.geometry.coordinates, HIGHWAY_BUFFER_DEG)] }
     }))
   };
@@ -85,7 +90,7 @@
   const highwayLineLayer = L.geoJSON(HIGHWAY_CORRIDORS, { style: styleHighway, onEachFeature: bindZonePopup });
   const highwayLayer = L.layerGroup([highwayBufferLayer, highwayLineLayer]);
 
-  const ecoIcon = L.divIcon({ className: "", html: '<div class="eco-icon" title="Eco">\ud83c\udf31</div>', iconSize: [28, 28], iconAnchor: [14, 14], popupAnchor: [0, -14] });
+  const ecoIcon = L.divIcon({ className: "", html: '<div class="eco-icon" title="Eco">🌱</div>', iconSize: [28, 28], iconAnchor: [14, 14], popupAnchor: [0, -14] });
   const ecoLayer = L.geoJSON(ECO_MARKERS, {
     pointToLayer: (feature, latlng) => L.marker(latlng, { icon: ecoIcon }),
     onEachFeature: (feature, layer) => {
@@ -98,17 +103,17 @@
   });
 
   function listingIcon() {
-    return L.divIcon({ className: "", html: '<div class="listing-icon" title="Oferta">\ud83c\udfe0</div>', iconSize: [30, 30], iconAnchor: [15, 15], popupAnchor: [0, -15] });
+    return L.divIcon({ className: "", html: '<div class="listing-icon" title="Oferta">🏠</div>', iconSize: [30, 30], iconAnchor: [15, 15], popupAnchor: [0, -15] });
   }
   function formatPrice(n) {
-    if (n == null || !Number.isFinite(Number(n))) return "\u2014";
-    return Number(n).toLocaleString("pl-PL") + " z\u0142";
+    if (n == null || !Number.isFinite(Number(n))) return "—";
+    return Number(n).toLocaleString("pl-PL") + " zł";
   }
   function formatArea(n) {
-    if (n == null || !Number.isFinite(Number(n))) return "\u2014";
+    if (n == null || !Number.isFinite(Number(n))) return "—";
     const m2 = Number(n);
-    if (m2 >= 10000) return (m2 / 10000).toLocaleString("pl-PL", { maximumFractionDigits: 2 }) + " ha (" + m2.toLocaleString("pl-PL") + " m\u00b2)";
-    return m2.toLocaleString("pl-PL") + " m\u00b2";
+    if (m2 >= 10000) return (m2 / 10000).toLocaleString("pl-PL", { maximumFractionDigits: 2 }) + " ha (" + m2.toLocaleString("pl-PL") + " m²)";
+    return m2.toLocaleString("pl-PL") + " m²";
   }
   function escapeHtml(str) {
     return String(str || "")
@@ -120,16 +125,17 @@
   function listingPopupHtml(p) {
     return (
       `<strong>${escapeHtml(p.name)}</strong><br>` +
-      `<span class="popup-price">${escapeHtml(formatPrice(p.price))}</span> \u00b7 ${escapeHtml(formatArea(p.area))}<br>` +
+      `<span class="popup-price">${escapeHtml(formatPrice(p.price))}</span> · ${escapeHtml(formatArea(p.area))}<br>` +
       `<small>${escapeHtml(p.location || "")}</small>` +
       (p.note ? `<br><small>${escapeHtml(p.note)}</small>` : "") +
-      (p.source ? `<br><small>\u0179r\u00f3d\u0142o: ${escapeHtml(p.source)} \u00b7 widziane ${escapeHtml(p.seen || "")}</small>` : "") +
-      (p.url ? `<br><a href="${escapeHtml(p.url)}" target="_blank" rel="noopener">Otw\u00f3rz og\u0142oszenie \u2197</a>` : "")
+      (p.source ? `<br><small>Źródło: ${escapeHtml(p.source)} · widziane ${escapeHtml(p.seen || "")}</small>` : "") +
+      (p.url ? `<br><a href="${escapeHtml(p.url)}" target="_blank" rel="noopener">Otwórz ogłoszenie ↗</a>` : "")
     );
   }
 
   const listingMarkersById = new Map();
   const listingsLayer = L.layerGroup();
+  const commercialLayer = L.layerGroup();
   function getFilters() {
     const maxPriceRaw = document.getElementById("filter-max-price").value;
     const minAreaRaw = document.getElementById("filter-min-area").value;
@@ -170,11 +176,11 @@
       li.dataset.id = id;
       li.innerHTML = `
         <h3>${escapeHtml(p.name)}</h3>
-        <p class="listing-meta"><strong>${escapeHtml(formatPrice(p.price))}</strong> \u00b7 ${escapeHtml(formatArea(p.area))}</p>
+        <p class="listing-meta"><strong>${escapeHtml(formatPrice(p.price))}</strong> · ${escapeHtml(formatArea(p.area))}</p>
         <p class="listing-loc">${escapeHtml(p.location || "")}</p>
         ${p.note ? `<p class="listing-note">${escapeHtml(p.note)}</p>` : ""}
         <div class="point-actions">
-          <button type="button" class="btn small" data-act="focus">Poka\u017c</button>
+          <button type="button" class="btn small" data-act="focus">Pokaż</button>
           ${p.url ? `<a class="btn small" href="${escapeHtml(p.url)}" target="_blank" rel="noopener">Link</a>` : ""}
         </div>`;
       li.querySelector('[data-act="focus"]').addEventListener("click", () => focusListing(id));
@@ -182,7 +188,7 @@
       listEl.appendChild(li);
     });
     countEl.textContent = shown + "/" + all.length;
-    metaEl.textContent = shown === all.length ? "Pokazano wszystkie oferty z pr\u00f3bki." : "Filtr aktywny \u2014 " + shown + " z " + all.length + " ofert.";
+    metaEl.textContent = shown === all.length ? "Pokazano wszystkie oferty z próbki." : "Filtr aktywny — " + shown + " z " + all.length + " ofert.";
   }
   function highlightListingCard(id) {
     document.querySelectorAll(".listing-card").forEach((el) => { el.classList.toggle("active", el.dataset.id === id); });
@@ -203,11 +209,30 @@
     renderListings();
   });
 
+  async function loadCommercialOffers() {
+    commercialLayer.clearLayers();
+    const { data, error } = await supabase.from("offers").select("id, title, price, area_m2, lat, lng, location_text, note, url").eq("is_active", true);
+    if (error) { console.warn("offers", error); return; }
+    (data || []).forEach((o) => {
+      const marker = L.marker([o.lat, o.lng], { icon: listingIcon() });
+      marker.bindPopup(
+        `<strong>${escapeHtml(o.title)}</strong><br>` +
+        `<span class="popup-price">${escapeHtml(formatPrice(o.price))}</span> · ${escapeHtml(formatArea(o.area_m2))}<br>` +
+        `<small>${escapeHtml(o.location_text || "")}</small>` +
+        (o.note ? `<br><small>${escapeHtml(o.note)}</small>` : "") +
+        (o.url ? `<br><a href="${escapeHtml(o.url)}" target="_blank" rel="noopener">Ogłoszenie ↗</a>` : "") +
+        `<br><small>Oferta biura</small>`
+      );
+      commercialLayer.addLayer(marker);
+    });
+  }
+
   const userLayer = L.layerGroup();
   const layers = {
     flood: floodLayer, wind: windLayer, geo: geoLayer, highway: highwayLayer,
     preferred: preferredLayer, listings: listingsLayer, eco: ecoLayer, user: userLayer,
-    noise: noiseLayer, ground: groundLayer, protect: protectLayer, climate: climateLayer, asset: assetLayer
+    noise: noiseLayer, ground: groundLayer, protect: protectLayer, climate: climateLayer, asset: assetLayer,
+    commercial: commercialLayer
   };
   document.querySelectorAll("[data-layer]").forEach((input) => {
     const key = input.dataset.layer;
@@ -246,7 +271,7 @@
   function savePoints() { localStorage.setItem(STORAGE_KEY, JSON.stringify(points)); }
   function uid() { return "p_" + Date.now().toString(36) + "_" + Math.random().toString(36).slice(2, 8); }
   function userIcon() {
-    return L.divIcon({ className: "", html: '<div class="user-icon">\ud83d\udccd</div>', iconSize: [26, 26], iconAnchor: [13, 13], popupAnchor: [0, -13] });
+    return L.divIcon({ className: "", html: '<div class="user-icon">📍</div>', iconSize: [26, 26], iconAnchor: [13, 13], popupAnchor: [0, -13] });
   }
   function renderMarkers() {
     userLayer.clearLayers();
@@ -265,12 +290,12 @@
       li.dataset.id = pt.id;
       li.innerHTML = `
         <h3>${escapeHtml(pt.title)}</h3>
-        <p class="point-meta"><span class="tag ${TAG_CLASS[pt.tag] || "inny"}">${escapeHtml(pt.tag)}</span> \u00b7 ${pt.lat.toFixed(4)}, ${pt.lng.toFixed(4)}</p>
+        <p class="point-meta"><span class="tag ${TAG_CLASS[pt.tag] || "inny"}">${escapeHtml(pt.tag)}</span> · ${pt.lat.toFixed(4)}, ${pt.lng.toFixed(4)}</p>
         ${pt.notes ? `<p class="point-notes">${escapeHtml(pt.notes)}</p>` : ""}
         <div class="point-actions">
-          <button type="button" class="btn small" data-act="focus">Poka\u017c</button>
+          <button type="button" class="btn small" data-act="focus">Pokaż</button>
           <button type="button" class="btn small" data-act="edit">Edytuj</button>
-          <button type="button" class="btn small danger" data-act="delete">Usu\u0144</button>
+          <button type="button" class="btn small danger" data-act="delete">Usuń</button>
         </div>`;
       li.querySelector('[data-act="focus"]').addEventListener("click", () => focusPoint(pt.id));
       li.querySelector('[data-act="edit"]').addEventListener("click", () => openEdit(pt.id));
@@ -327,7 +352,7 @@
     openModal();
   }
   function deletePoint(id) {
-    if (!confirm("Usun\u0105\u0107 ten punkt?")) return;
+    if (!confirm("Usunąć ten punkt?")) return;
     points = points.filter((p) => p.id !== id);
     savePoints(); renderMarkers(); renderList();
   }
@@ -353,9 +378,88 @@
         createdAt: p.createdAt || new Date().toISOString()
       })).filter((p) => Number.isFinite(p.lat) && Number.isFinite(p.lng));
       savePoints(); renderMarkers(); renderList();
-    } catch (err) { alert("Nie uda\u0142o si\u0119 zaimportowa\u0107 pliku: " + err.message); }
+    } catch (err) { alert("Nie udało się zaimportować pliku: " + err.message); }
     importInput.value = "";
   });
+
+  // Auth
+  let currentUser = null;
+  let currentProfile = null;
+  const authModal = document.getElementById("auth-modal");
+  const authForm = document.getElementById("auth-form");
+  const authTitle = document.getElementById("auth-modal-title");
+  const authSubmit = document.getElementById("auth-submit");
+  const authMessage = document.getElementById("auth-message");
+  const authNameRow = document.getElementById("auth-name-row");
+  const authRoleRow = document.getElementById("auth-role-row");
+  let authMode = "login";
+
+  function showAuth(mode) {
+    authMode = mode;
+    authTitle.textContent = mode === "login" ? "Zaloguj" : "Załóż konto";
+    authSubmit.textContent = mode === "login" ? "Zaloguj" : "Załóż";
+    authNameRow.style.display = mode === "register" ? "" : "none";
+    authRoleRow.style.display = mode === "register" ? "" : "none";
+    authMessage.textContent = "";
+    authModal.classList.add("open");
+  }
+  function hideAuth() { authModal.classList.remove("open"); }
+  document.getElementById("btn-show-login").addEventListener("click", () => showAuth("login"));
+  document.getElementById("btn-show-register").addEventListener("click", () => showAuth("register"));
+  document.getElementById("auth-cancel").addEventListener("click", hideAuth);
+  authModal.addEventListener("click", (e) => { if (e.target === authModal) hideAuth(); });
+
+  authForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    authMessage.textContent = "";
+    const email = document.getElementById("auth-email").value.trim();
+    const password = document.getElementById("auth-password").value;
+    if (authMode === "login") {
+      const { error } = await supabase.auth.signInWithPassword({ email, password });
+      if (error) { authMessage.textContent = error.message; return; }
+    } else {
+      const name = document.getElementById("auth-name").value.trim();
+      const role = document.querySelector('input[name="role"]:checked').value;
+      const { error } = await supabase.auth.signUp({
+        email, password,
+        options: { data: { display_name: name, role } }
+      });
+      if (error) { authMessage.textContent = error.message; return; }
+      authMessage.textContent = "Sprawdź skrzynkę — potwierdź email.";
+    }
+    hideAuth();
+  });
+
+  document.getElementById("btn-logout").addEventListener("click", async () => {
+    await supabase.auth.signOut();
+  });
+
+  async function refreshAuthUI() {
+    const { data: { user } } = await supabase.auth.getUser();
+    currentUser = user;
+    const out = document.getElementById("auth-logged-out");
+    const inn = document.getElementById("auth-logged-in");
+    const info = document.getElementById("auth-user-info");
+    const btnOffer = document.getElementById("btn-add-offer");
+    if (!user) {
+      out.style.display = "";
+      inn.style.display = "none";
+      currentProfile = null;
+      return;
+    }
+    out.style.display = "none";
+    inn.style.display = "";
+    const { data: profile } = await supabase.from("profiles").select("*").eq("id", user.id).single();
+    currentProfile = profile;
+    const roleLabel = profile?.role === "commercial" ? "biuro" : "użytkownik";
+    info.textContent = (profile?.display_name || user.email) + " · " + roleLabel;
+    btnOffer.style.display = profile?.role === "commercial" ? "" : "none";
+  }
+
+  supabase.auth.onAuthStateChange(() => { refreshAuthUI(); loadCommercialOffers(); });
+  refreshAuthUI();
+  loadCommercialOffers();
+
   const sidebar = document.getElementById("sidebar");
   document.getElementById("mobile-toggle").addEventListener("click", () => sidebar.classList.toggle("open"));
   renderListings(); renderMarkers(); renderList();
