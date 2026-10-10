@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pl">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -13,160 +13,137 @@
     <aside class="sidebar" id="sidebar">
       <header class="brand">
         <div class="brand-row">
-          <img class="brand-logo" src="logo.svg" width="44" height="44" alt="Logo Siedliszcze" />
+          <img class="brand-logo" src="logo.svg" width="44" height="44" alt="Siedliszcze logo" />
           <div>
-            <h1>Siedliszcze</h1>
-            <p class="subtitle">Heurystyczna mapa wyboru miejsca na siedlisko w Polsce i Europie</p>
+            <h1 id="site-title">Siedliszcze</h1>
+            <p class="subtitle" id="site-subtitle">Heuristic map for choosing a place to settle in Europe</p>
           </div>
         </div>
-        <p class="listings-stamp" id="listings-stamp">Oferty zebrane: 29.09.2026 (próba rynkowa, sprawdzaj linki)</p>
+        <div class="lang-switcher" id="lang-switcher" aria-label="Language"></div>
+        <p class="listings-stamp" id="listings-stamp">Offers collected: 29.09.2026 (market sample, check links)</p>
       </header>
 
       <section class="panel" id="auth-panel">
-        <h2>Konto</h2>
+        <h2 id="i18n-account">Account</h2>
         <div id="auth-logged-out">
-          <p style="font-size:0.85rem;color:var(--muted);margin:0 0 0.6rem">Zaloguj się, aby zapisywać punkty w chmurze. Konto komercyjne pozwala dodawać oferty widoczne na mapie.</p>
-          <button type="button" class="btn primary" id="btn-show-login">Zaloguj</button>
-          <button type="button" class="btn" id="btn-show-register">Załóż konto</button>
+          <p style="font-size:0.85rem;color:var(--muted);margin:0 0 0.6rem" id="i18n-auth-hint">Log in to save points in the cloud. Commercial accounts can add public offers.</p>
+          <button type="button" class="btn primary" id="btn-show-login">Log in</button>
+          <button type="button" class="btn" id="btn-show-register">Sign up</button>
         </div>
         <div id="auth-logged-in" style="display:none">
           <p id="auth-user-info" style="font-size:0.85rem;margin:0 0 0.5rem"></p>
-          <button type="button" class="btn" id="btn-logout">Wyloguj</button>
-          <button type="button" class="btn primary" id="btn-add-offer" style="display:none">Dodaj ofertę</button>
+          <button type="button" class="btn" id="btn-logout">Log out</button>
+          <button type="button" class="btn primary" id="btn-add-offer" style="display:none">Add offer</button>
         </div>
       </section>
 
-      <section class="disclaimer">
-        <strong>Uwaga:</strong> strefy są przybliżonymi heurystykami, nie oficjalnymi mapami zagrożeń.
-        Oferty działek to próbka rynkowa — ceny i dostępność mogą się zmienić.
-        Sprawdź źródła:
-        <ul>
-          <li><a href="https://isok.gov.pl/hydroportal.html" target="_blank" rel="noopener">ISOK Hydroportal</a></li>
-          <li><a href="https://www.imgw.pl/" target="_blank" rel="noopener">IMGW</a></li>
-          <li><a href="https://www.gov.pl/web/gddkia" target="_blank" rel="noopener">GDDKiA</a></li>
-          <li><a href="https://mapa.permakultura.edu.pl/" target="_blank" rel="noopener">Mapa permakultury</a></li>
-        </ul>
+      <section class="disclaimer" id="i18n-disclaimer">
+        <strong>Note:</strong> zones are approximate heuristics, not official hazard maps.
+        Listings are a market sample — prices and availability may change.
       </section>
 
       <section class="panel">
-        <h2>Warstwy</h2>
+        <h2 id="i18n-layers">Layers</h2>
         <ul class="layer-list">
-          <li><label><input type="checkbox" data-layer="flood" checked /><span class="swatch flood"></span> Wykluczenia powodziowe (PL)</label></li>
-          <li><label><input type="checkbox" data-layer="wind" checked /><span class="swatch wind"></span> Silny wiatr (PL)</label></li>
-          <li><label><input type="checkbox" data-layer="geo" checked /><span class="swatch geo"></span> Ryzyko geopolityczne (PL)</label></li>
-          <li><label><input type="checkbox" data-layer="highway" checked /><span class="swatch highway"></span> Korytarze S/A (PL)</label></li>
-          <li><label><input type="checkbox" data-layer="preferred" checked /><span class="swatch preferred"></span> Preferowane strefy (PL)</label></li>
-          <li><label><input type="checkbox" data-layer="eu-geo" /><span class="swatch geo"></span> Ryzyko geo — Europa (UA, BY)</label></li>
-          <li><label><input type="checkbox" data-layer="eu-flood" /><span class="swatch flood"></span> Powodzie — Europa</label></li>
-          <li><label><input type="checkbox" data-layer="eu-wind" /><span class="swatch wind"></span> Wiatr — Europa</label></li>
-          <li><label><input type="checkbox" data-layer="eu-preferred" /><span class="swatch preferred"></span> Preferowane — Europa</label></li>
-          <li><label><input type="checkbox" data-layer="noise" /><span class="swatch noise"></span> Hałas i uciążliwość</label></li>
-          <li><label><input type="checkbox" data-layer="ground" /><span class="swatch ground"></span> Susza, grunt, odkrywki</label></li>
-          <li><label><input type="checkbox" data-layer="protect" /><span class="swatch protect"></span> Ochrona, uzdrowiska, wojsko</label></li>
-          <li><label><input type="checkbox" data-layer="climate" /><span class="swatch climate"></span> Smog i zacienione doliny</label></li>
-          <li><label><input type="checkbox" data-layer="asset" /><span class="swatch asset"></span> Atuty: las i gleba</label></li>
-          <li><label><input type="checkbox" data-layer="listings" checked /><span class="swatch listings"></span> Oferty działek</label></li>
-          <li><label><input type="checkbox" data-layer="commercial" /><span class="swatch listings"></span> Oferty biur</label></li>
-          <li><label><input type="checkbox" data-layer="eco" checked /><span class="swatch eco"></span> Punkty eco / off-grid</label></li>
-          <li><label><input type="checkbox" data-layer="user" checked /><span class="swatch user"></span> Moje punkty</label></li>
+          <li><label><input type="checkbox" data-layer="flood" checked /><span class="swatch flood"></span> Flood exclusions (PL)</label></li>
+          <li><label><input type="checkbox" data-layer="wind" checked /><span class="swatch wind"></span> Strong wind (PL)</label></li>
+          <li><label><input type="checkbox" data-layer="geo" checked /><span class="swatch geo"></span> Geopolitical risk (PL)</label></li>
+          <li><label><input type="checkbox" data-layer="highway" checked /><span class="swatch highway"></span> Motorway corridors (PL)</label></li>
+          <li><label><input type="checkbox" data-layer="preferred" checked /><span class="swatch preferred"></span> Preferred zones (PL)</label></li>
+          <li><label><input type="checkbox" data-layer="eu-geo" /><span class="swatch geo"></span> Geo risk — Europe (UA, BY)</label></li>
+          <li><label><input type="checkbox" data-layer="eu-flood" /><span class="swatch flood"></span> Floods — Europe</label></li>
+          <li><label><input type="checkbox" data-layer="eu-wind" /><span class="swatch wind"></span> Wind — Europe</label></li>
+          <li><label><input type="checkbox" data-layer="eu-preferred" /><span class="swatch preferred"></span> Preferred — Europe</label></li>
+          <li><label><input type="checkbox" data-layer="noise" /><span class="swatch noise"></span> Noise & nuisance</label></li>
+          <li><label><input type="checkbox" data-layer="ground" /><span class="swatch ground"></span> Drought, soil, mining</label></li>
+          <li><label><input type="checkbox" data-layer="protect" /><span class="swatch protect"></span> Protection, spas, military</label></li>
+          <li><label><input type="checkbox" data-layer="climate" /><span class="swatch climate"></span> Smog & shaded valleys</label></li>
+          <li><label><input type="checkbox" data-layer="asset" /><span class="swatch asset"></span> Assets: forest & soil</label></li>
+          <li><label><input type="checkbox" data-layer="listings" checked /><span class="swatch listings"></span> Land offers</label></li>
+          <li><label><input type="checkbox" data-layer="commercial" /><span class="swatch listings"></span> Agency offers</label></li>
+          <li><label><input type="checkbox" data-layer="eco" checked /><span class="swatch eco"></span> Eco / off-grid points</label></li>
+          <li><label><input type="checkbox" data-layer="user" checked /><span class="swatch user"></span> My points</label></li>
         </ul>
-        <div class="legend-inline">
-          <span><i class="lg flood"></i> powódź</span>
-          <span><i class="lg wind"></i> wiatr</span>
-          <span><i class="lg geo"></i> granice</span>
-          <span><i class="lg preferred"></i> preferowane</span>
-          <span><i class="lg noise"></i> hałas</span>
-          <span><i class="lg ground"></i> grunt</span>
-          <span><i class="lg protect"></i> ochrona</span>
-          <span><i class="lg climate"></i> smog</span>
-          <span><i class="lg asset"></i> atuty</span>
-          <span><i class="lg listings"></i> oferty</span>
-          <span><i class="lg eco"></i> eco</span>
-          <span><i class="lg user"></i> moje</span>
-        </div>
       </section>
 
       <section class="panel">
-        <h2>Filtr ofert</h2>
+        <h2 id="i18n-filter">Offer filter</h2>
         <div class="filter-row">
-          <label for="filter-max-price">Maks. cena (PLN)</label>
-          <input id="filter-max-price" type="number" min="0" step="10000" placeholder="np. 500000" />
+          <label for="filter-max-price" id="i18n-max-price">Max price (EUR)</label>
+          <input id="filter-max-price" type="number" min="0" step="10000" placeholder="e.g. 200000" />
         </div>
         <div class="filter-row">
-          <label for="filter-min-area">Min. powierzchnia (m²)</label>
-          <input id="filter-min-area" type="number" min="0" step="100" placeholder="np. 2000" />
+          <label for="filter-min-area" id="i18n-min-area">Min area (m²)</label>
+          <input id="filter-min-area" type="number" min="0" step="100" placeholder="e.g. 2000" />
         </div>
-        <button type="button" class="btn" id="btn-reset-filters">Wyczyść filtry</button>
+        <button type="button" class="btn" id="btn-reset-filters">Clear filters</button>
         <p class="filter-meta" id="filter-meta"></p>
       </section>
 
       <section class="panel">
-        <h2>Oferty działek <span class="count-badge" id="listings-count"></span></h2>
+        <h2 id="i18n-listings">Land offers <span class="count-badge" id="listings-count"></span></h2>
         <ul class="listings-list" id="listings-list"></ul>
       </section>
 
       <section class="panel">
-        <h2>Kryteria (skrót)</h2>
+        <h2 id="i18n-criteria">Criteria (summary)</h2>
         <ul class="criteria">
-          <li>Unikać dolin zalewowych i Żuław</li>
-          <li>Omijać pas silnego wiatru (morze, góry)</li>
-          <li>Trzymać dystans od granic ryzyka geopolitycznego</li>
-          <li>Uwzględniać przyszłe korytarze S/A (~8 km)</li>
-          <li>Szukać spokojnych pasów w głębi lądu (zieleń)</li>
-          <li>Omijać lotniska, korytarze towarowe i odkrywki</li>
-          <li>Uwzględniać parki, uzdrowiska i poligony</li>
-          <li>Sprawdzać smog w kotlinach i suszę na Kujawach</li>
+          <li>Avoid floodplains</li>
+          <li>Avoid strong wind belts (coasts, mountains)</li>
+          <li>Keep distance from geopolitical risk borders</li>
+          <li>Account for future motorway corridors</li>
+          <li>Look for quiet inland areas</li>
         </ul>
       </section>
 
       <section class="panel">
-        <h2>Moje punkty</h2>
+        <h2 id="i18n-mypoints">My points</h2>
         <div class="toolbar">
-          <button type="button" class="btn primary" id="btn-add-point">Dodaj punkt</button>
-          <button type="button" class="btn" id="btn-export">Eksport JSON</button>
+          <button type="button" class="btn primary" id="btn-add-point">Add point</button>
+          <button type="button" class="btn" id="btn-export">Export JSON</button>
           <button type="button" class="btn" id="btn-import">Import JSON</button>
           <input type="file" id="import-file" accept="application/json,.json" hidden />
         </div>
-        <p class="mode-hint" id="mode-hint">Kliknij mapę, aby dodać punkt.</p>
+        <p class="mode-hint" id="mode-hint">Click the map to add a point.</p>
         <ul class="points-list" id="points-list"></ul>
       </section>
     </aside>
 
     <div class="map-wrap">
-      <button type="button" class="btn mobile-toggle" id="mobile-toggle" aria-label="Otwórz menu">Menu</button>
-      <div id="map" role="application" aria-label="Mapa Europy"></div>
+      <button type="button" class="btn mobile-toggle" id="mobile-toggle" aria-label="Open menu">Menu</button>
+      <div id="map" role="application" aria-label="Map of Europe"></div>
       <div class="legend-float">
-        <strong>Legenda</strong>
+        <strong>Legend</strong>
         <div>Esri World Topo · Leaflet</div>
-        <div>Strefy przybliżone · oferty 29.09.2026</div>
+        <div>Approximate zones · offers 29.09.2026</div>
       </div>
     </div>
   </div>
 
   <div class="modal-backdrop" id="point-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
     <div class="modal">
-      <h2 id="modal-title">Nowy punkt</h2>
+      <h2 id="modal-title">New point</h2>
       <form id="point-form">
         <div class="form-row">
-          <label for="point-title">Tytuł</label>
-          <input id="point-title" name="title" type="text" required maxlength="120" placeholder="np. Działka koło lasu" />
+          <label for="point-title">Title</label>
+          <input id="point-title" name="title" type="text" required maxlength="120" placeholder="e.g. Plot near forest" />
         </div>
         <div class="form-row">
-          <label for="point-notes">Notatki</label>
-          <textarea id="point-notes" name="notes" maxlength="2000" placeholder="Uwagi, dostęp, woda"></textarea>
+          <label for="point-notes">Notes</label>
+          <textarea id="point-notes" name="notes" maxlength="2000" placeholder="Access, water, notes"></textarea>
         </div>
         <div class="form-row">
           <label for="point-tag">Tag</label>
           <select id="point-tag" name="tag">
-            <option value="kandydat">kandydat</option>
-            <option value="odrzucony">odrzucony</option>
-            <option value="do sprawdzenia">do sprawdzenia</option>
-            <option value="inny">inny</option>
+            <option value="kandydat">candidate</option>
+            <option value="odrzucony">rejected</option>
+            <option value="do sprawdzenia">to check</option>
+            <option value="inny">other</option>
           </select>
         </div>
         <div class="modal-actions">
-          <button type="button" class="btn" id="modal-cancel">Anuluj</button>
-          <button type="submit" class="btn primary">Zapisz</button>
+          <button type="button" class="btn" id="modal-cancel">Cancel</button>
+          <button type="submit" class="btn primary">Save</button>
         </div>
       </form>
     </div>
@@ -174,36 +151,36 @@
 
   <div class="modal-backdrop" id="offer-modal" role="dialog" aria-modal="true">
     <div class="modal">
-      <h2>Nowa oferta</h2>
+      <h2>New offer</h2>
       <form id="offer-form">
         <div class="form-row">
-          <label for="offer-title">Tytuł</label>
-          <input id="offer-title" type="text" required maxlength="120" placeholder="np. Działka 1,5 ha, las" />
+          <label for="offer-title">Title</label>
+          <input id="offer-title" type="text" required maxlength="120" placeholder="e.g. 1.5 ha plot, forest" />
         </div>
         <div class="form-row">
-          <label for="offer-price">Cena (PLN)</label>
+          <label for="offer-price">Price (EUR)</label>
           <input id="offer-price" type="number" min="0" step="1000" />
         </div>
         <div class="form-row">
-          <label for="offer-area">Powierzchnia (m²)</label>
+          <label for="offer-area">Area (m²)</label>
           <input id="offer-area" type="number" min="0" step="100" />
         </div>
         <div class="form-row">
-          <label for="offer-location">Lokalizacja (opis)</label>
-          <input id="offer-location" type="text" maxlength="120" placeholder="np. gm. Czarnków" />
+          <label for="offer-location">Location (text)</label>
+          <input id="offer-location" type="text" maxlength="120" placeholder="e.g. near Toulouse" />
         </div>
         <div class="form-row">
-          <label for="offer-note">Notatka</label>
-          <textarea id="offer-note" maxlength="500" placeholder="Dostęp, media, uwagi"></textarea>
+          <label for="offer-note">Note</label>
+          <textarea id="offer-note" maxlength="500" placeholder="Access, utilities, notes"></textarea>
         </div>
         <div class="form-row">
-          <label for="offer-url">Link do ogłoszenia</label>
+          <label for="offer-url">Listing URL</label>
           <input id="offer-url" type="url" placeholder="https://..." />
         </div>
         <p id="offer-coords" style="font-size:0.8rem;color:var(--muted);margin:0 0 0.6rem"></p>
         <div class="modal-actions">
-          <button type="button" class="btn" id="offer-cancel">Anuluj</button>
-          <button type="submit" class="btn primary">Zapisz ofertę</button>
+          <button type="button" class="btn" id="offer-cancel">Cancel</button>
+          <button type="submit" class="btn primary">Save offer</button>
         </div>
       </form>
       <p id="offer-message" style="font-size:0.82rem;color:#9b1c1c;margin:0.6rem 0 0"></p>
@@ -212,10 +189,10 @@
 
   <div class="modal-backdrop" id="auth-modal" role="dialog" aria-modal="true">
     <div class="modal">
-      <h2 id="auth-modal-title">Zaloguj</h2>
+      <h2 id="auth-modal-title">Log in</h2>
       <form id="auth-form">
         <div class="form-row" id="auth-name-row" style="display:none">
-          <label for="auth-name">Nazwa / nazwa biura</label>
+          <label for="auth-name">Name / agency name</label>
           <input id="auth-name" type="text" maxlength="80" />
         </div>
         <div class="form-row">
@@ -223,18 +200,18 @@
           <input id="auth-email" type="email" required />
         </div>
         <div class="form-row">
-          <label for="auth-password">Hasło</label>
+          <label for="auth-password">Password</label>
           <input id="auth-password" type="password" required minlength="6" />
         </div>
         <div class="form-row" id="auth-role-row" style="display:none">
-          <label>Rodzaj konta</label>
-          <label><input type="radio" name="role" value="user" checked /> Zwykły użytkownik</label>
-          <label><input type="radio" name="role" value="commercial" /> Biuro / komercyjne</label>
-          <label><input type="radio" name="role" value="owner" /> Właściciel</label>
+          <label>Account type</label>
+          <label><input type="radio" name="role" value="user" checked /> Regular user</label>
+          <label><input type="radio" name="role" value="commercial" /> Agency / commercial</label>
+          <label><input type="radio" name="role" value="owner" /> Owner</label>
         </div>
         <div class="modal-actions">
-          <button type="button" class="btn" id="auth-cancel">Anuluj</button>
-          <button type="submit" class="btn primary" id="auth-submit">Zaloguj</button>
+          <button type="button" class="btn" id="auth-cancel">Cancel</button>
+          <button type="submit" class="btn primary" id="auth-submit">Log in</button>
         </div>
       </form>
       <p id="auth-message" style="font-size:0.82rem;color:#9b1c1c;margin:0.6rem 0 0"></p>
@@ -247,6 +224,7 @@
   <script src="data/extra-zones.js"></script>
   <script src="data/europe-zones.js"></script>
   <script src="data/listings.js"></script>
+  <script src="data/i18n.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
