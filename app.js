@@ -434,6 +434,12 @@
     await supabase.auth.signOut();
   });
 
+  function roleLabel(role) {
+    if (role === "owner") return "właściciel";
+    if (role === "commercial") return "biuro";
+    return "użytkownik";
+  }
+
   async function refreshAuthUI() {
     const { data: { user } } = await supabase.auth.getUser();
     currentUser = user;
@@ -451,9 +457,8 @@
     inn.style.display = "";
     const { data: profile } = await supabase.from("profiles").select("*").eq("id", user.id).single();
     currentProfile = profile;
-    const roleLabel = profile?.role === "commercial" ? "biuro" : "użytkownik";
-    info.textContent = (profile?.display_name || user.email) + " · " + roleLabel;
-    btnOffer.style.display = profile?.role === "commercial" ? "" : "none";
+    info.textContent = (profile?.display_name || user.email) + " · " + roleLabel(profile?.role);
+    btnOffer.style.display = (profile?.role === "commercial" || profile?.role === "owner") ? "" : "none";
   }
 
   supabase.auth.onAuthStateChange(() => { refreshAuthUI(); loadCommercialOffers(); });
