@@ -28,12 +28,9 @@ body { overflow: hidden; }
 .brand-logo { width: 44px; height: 44px; flex-shrink: 0; border-radius: 12px; box-shadow: 0 2px 8px rgba(47, 107, 79, 0.25); }
 .brand h1 { margin: 0 0 0.15rem; font-size: 1.45rem; letter-spacing: -0.02em; }
 .brand .subtitle { margin: 0; color: var(--muted); font-size: 0.92rem; line-height: 1.35; }
-.invite-banner { background: linear-gradient(160deg, #1f2a24 0%, #2f6b4f 70%, #3d7d5c 100%); color: #f4f1ea; border-radius: var(--radius); padding: 0.85rem 0.95rem 1rem; box-shadow: var(--shadow); }
-.invite-banner h2 { margin: 0 0 0.4rem; font-size: 1.02rem; letter-spacing: -0.01em; text-transform: none; color: #fff; }
-.invite-kicker { margin: 0 0 0.25rem; font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; color: #c9e6d6; }
-.invite-copy { margin: 0 0 0.7rem; font-size: 0.82rem; line-height: 1.45; color: #e7f0ea; }
-.invite-actions { display: flex; flex-direction: column; gap: 0.5rem; }
-.invite-btn { align-self: flex-start; text-decoration: none; }
+.lang-switcher { display: flex; flex-wrap: wrap; gap: 0.3rem; margin: 0.5rem 0 0.3rem; }
+.lang-btn { background: none; border: 1px solid transparent; border-radius: 6px; padding: 0.15rem 0.3rem; font-size: 1.15rem; cursor: pointer; line-height: 1; }
+.lang-btn:hover, .lang-btn.active { border-color: var(--accent); background: var(--accent-soft); }
 .disclaimer { background: #fff8e8; border: 1px solid #f0dfb4; border-radius: var(--radius); padding: 0.75rem 0.85rem; font-size: 0.82rem; line-height: 1.45; color: #5a4a28; }
 .disclaimer a { color: #8a5a12; word-break: break-word; }
 .disclaimer ul { margin: 0.4rem 0 0; padding-left: 1.1rem; }
@@ -64,13 +61,12 @@ body { overflow: hidden; }
 .btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
 .btn.primary:hover { background: #255a41; }
 .btn.primary.active { box-shadow: 0 0 0 3px rgba(47, 107, 79, 0.25); }
-.invite-banner .btn.primary { background: #fff; border-color: #fff; color: #1f2a24; }
 .btn.danger { color: #9b1c1c; border-color: #f0c4c4; }
 .btn.small { padding: 0.25rem 0.55rem; font-size: 0.78rem; }
 .mode-hint { display: none; margin: 0 0 0.65rem; padding: 0.5rem 0.65rem; background: var(--accent-soft); border-radius: 8px; font-size: 0.82rem; color: var(--accent); }
 .mode-hint.visible { display: block; }
 .points-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.55rem; }
-.points-list:empty::after { content: "Brak własnych punktów — kliknij „Dodaj punkt”."; color: var(--muted); font-size: 0.85rem; }
+.points-list:empty::after { content: "No points yet — click Add point."; color: var(--muted); font-size: 0.85rem; }
 .point-card { border: 1px solid var(--line); border-radius: 10px; padding: 0.65rem 0.7rem; background: #fafafa; }
 .point-card h3 { margin: 0 0 0.25rem; font-size: 0.95rem; }
 .point-meta { margin: 0 0 0.35rem; font-size: 0.78rem; color: var(--muted); }
@@ -106,27 +102,13 @@ body { overflow: hidden; }
   .mobile-toggle { display: inline-flex; }
 }
 .listings-stamp { margin: 0.55rem 0 0; padding: 0.4rem 0.55rem; background: #fff4e8; border: 1px solid #f0c9a0; border-radius: 8px; font-size: 0.78rem; color: #9a4b12; line-height: 1.35; }
-.legend-inline { display: flex; flex-wrap: wrap; gap: 0.35rem 0.65rem; margin-top: 0.75rem; padding-top: 0.65rem; border-top: 1px dashed var(--line); font-size: 0.72rem; color: var(--muted); }
-.legend-inline .lg { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 0.2rem; vertical-align: middle; border: 1px solid rgba(0,0,0,0.12); }
-.legend-inline .lg.flood { background: rgba(196, 92, 38, 0.55); }
-.legend-inline .lg.wind { background: rgba(107, 76, 154, 0.55); }
-.legend-inline .lg.geo { background: rgba(139, 30, 30, 0.55); }
-.legend-inline .lg.preferred { background: rgba(47, 143, 91, 0.45); }
-.legend-inline .lg.listings { background: var(--listings); border-radius: 50%; }
-.legend-inline .lg.eco { background: var(--eco); border-radius: 50%; }
-.legend-inline .lg.user { background: #2563eb; border-radius: 50%; }
-.legend-inline .lg.noise { background: rgba(139, 92, 246, 0.55); }
-.legend-inline .lg.ground { background: rgba(180, 83, 9, 0.55); }
-.legend-inline .lg.protect { background: rgba(20, 184, 166, 0.55); }
-.legend-inline .lg.climate { background: rgba(100, 116, 139, 0.65); }
-.legend-inline .lg.asset { background: rgba(134, 239, 172, 0.75); }
 .filter-row { display: flex; flex-direction: column; gap: 0.25rem; margin-bottom: 0.55rem; }
 .filter-row label { font-size: 0.8rem; color: var(--muted); }
 .filter-row input { font: inherit; padding: 0.45rem 0.55rem; border: 1px solid var(--line); border-radius: 8px; background: #fff; }
 .filter-meta { margin: 0.55rem 0 0; font-size: 0.78rem; color: var(--muted); }
 .count-badge { display: inline-block; margin-left: 0.25rem; padding: 0.05rem 0.4rem; border-radius: 999px; background: #fff4e8; color: #9a4b12; font-size: 0.75rem; font-weight: 600; text-transform: none; letter-spacing: 0; }
 .listings-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.55rem; max-height: 340px; overflow-y: auto; }
-.listings-list:empty::after { content: "Brak ofert spełniających filtr."; color: var(--muted); font-size: 0.85rem; }
+.listings-list:empty::after { content: "No offers match the filter."; color: var(--muted); font-size: 0.85rem; }
 .listing-card { border: 1px solid var(--line); border-left: 3px solid var(--listings); border-radius: 10px; padding: 0.65rem 0.7rem; background: #fffaf5; cursor: pointer; }
 .listing-card:hover, .listing-card.active { box-shadow: 0 0 0 2px rgba(234, 88, 12, 0.25); border-color: #f0b27a; }
 .listing-card h3 { margin: 0 0 0.25rem; font-size: 0.9rem; line-height: 1.3; }
