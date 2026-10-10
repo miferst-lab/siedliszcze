@@ -40,7 +40,7 @@
 
   function bindZonePopup(feature, layer) {
     const p = feature.properties || {};
-    const title = p.name || "Strefa";
+    const title = p.name || "Zone";
     const desc = p.description ? `<br><small>${p.description}</small>` : "";
     layer.bindPopup(`<strong>${title}</strong>${desc}`);
   }
@@ -85,7 +85,7 @@
     type: "FeatureCollection",
     features: HIGHWAY_CORRIDORS.features.map((f) => ({
       type: "Feature",
-      properties: { ...f.properties, name: (f.properties.name || "Korytarz") + " — bufor ~8 km" },
+      properties: { ...f.properties, name: (f.properties.name || "Corridor") + " — buffer ~8 km" },
       geometry: { type: "Polygon", coordinates: [bufferLine(f.geometry.coordinates, HIGHWAY_BUFFER_DEG)] }
     }))
   };
@@ -109,17 +109,17 @@
   });
 
   function listingIcon() {
-    return L.divIcon({ className: "", html: '<div class="listing-icon" title="Oferta">🏠</div>', iconSize: [30, 30], iconAnchor: [15, 15], popupAnchor: [0, -15] });
+    return L.divIcon({ className: "", html: '<div class="listing-icon" title="Offer">🏠</div>', iconSize: [30, 30], iconAnchor: [15, 15], popupAnchor: [0, -15] });
   }
   function formatPrice(n) {
     if (n == null || !Number.isFinite(Number(n))) return "—";
-    return Number(n).toLocaleString("pl-PL") + " zł";
+    return Number(n).toLocaleString("en-EU") + " EUR";
   }
   function formatArea(n) {
     if (n == null || !Number.isFinite(Number(n))) return "—";
     const m2 = Number(n);
-    if (m2 >= 10000) return (m2 / 10000).toLocaleString("pl-PL", { maximumFractionDigits: 2 }) + " ha (" + m2.toLocaleString("pl-PL") + " m²)";
-    return m2.toLocaleString("pl-PL") + " m²";
+    if (m2 >= 10000) return (m2 / 10000).toLocaleString("en-EU", { maximumFractionDigits: 2 }) + " ha (" + m2.toLocaleString("en-EU") + " m²)";
+    return m2.toLocaleString("en-EU") + " m²";
   }
   function escapeHtml(str) {
     return String(str || "")
@@ -134,8 +134,8 @@
       `<span class="popup-price">${escapeHtml(formatPrice(p.price))}</span> · ${escapeHtml(formatArea(p.area))}<br>` +
       `<small>${escapeHtml(p.location || "")}</small>` +
       (p.note ? `<br><small>${escapeHtml(p.note)}</small>` : "") +
-      (p.source ? `<br><small>Źródło: ${escapeHtml(p.source)} · widziane ${escapeHtml(p.seen || "")}</small>` : "") +
-      (p.url ? `<br><a href="${escapeHtml(p.url)}" target="_blank" rel="noopener">Otwórz ogłoszenie ↗</a>` : "")
+      (p.source ? `<br><small>Source: ${escapeHtml(p.source)} · seen ${escapeHtml(p.seen || "")}</small>` : "") +
+      (p.url ? `<br><a href="${escapeHtml(p.url)}" target="_blank" rel="noopener">Open listing ↗</a>` : "")
     );
   }
 
@@ -186,7 +186,7 @@
         <p class="listing-loc">${escapeHtml(p.location || "")}</p>
         ${p.note ? `<p class="listing-note">${escapeHtml(p.note)}</p>` : ""}
         <div class="point-actions">
-          <button type="button" class="btn small" data-act="focus">Pokaż</button>
+          <button type="button" class="btn small" data-act="focus">Show</button>
           ${p.url ? `<a class="btn small" href="${escapeHtml(p.url)}" target="_blank" rel="noopener">Link</a>` : ""}
         </div>`;
       li.querySelector('[data-act="focus"]').addEventListener("click", () => focusListing(id));
@@ -194,7 +194,7 @@
       listEl.appendChild(li);
     });
     countEl.textContent = shown + "/" + all.length;
-    metaEl.textContent = shown === all.length ? "Pokazano wszystkie oferty z próbki." : "Filtr aktywny — " + shown + " z " + all.length + " ofert.";
+    metaEl.textContent = shown === all.length ? "Showing all sample offers." : "Filter active — " + shown + " of " + all.length + " offers.";
   }
   function highlightListingCard(id) {
     document.querySelectorAll(".listing-card").forEach((el) => { el.classList.toggle("active", el.dataset.id === id); });
@@ -226,8 +226,8 @@
         `<span class="popup-price">${escapeHtml(formatPrice(o.price))}</span> · ${escapeHtml(formatArea(o.area_m2))}<br>` +
         `<small>${escapeHtml(o.location_text || "")}</small>` +
         (o.note ? `<br><small>${escapeHtml(o.note)}</small>` : "") +
-        (o.url ? `<br><a href="${escapeHtml(o.url)}" target="_blank" rel="noopener">Ogłoszenie ↗</a>` : "") +
-        `<br><small>Oferta biura</small>`
+        (o.url ? `<br><a href="${escapeHtml(o.url)}" target="_blank" rel="noopener">Listing ↗</a>` : "") +
+        `<br><small>Agency offer</small>`
       );
       commercialLayer.addLayer(marker);
     });
@@ -300,9 +300,9 @@
         <p class="point-meta"><span class="tag ${TAG_CLASS[pt.tag] || "inny"}">${escapeHtml(pt.tag)}</span> · ${pt.lat.toFixed(4)}, ${pt.lng.toFixed(4)}</p>
         ${pt.notes ? `<p class="point-notes">${escapeHtml(pt.notes)}</p>` : ""}
         <div class="point-actions">
-          <button type="button" class="btn small" data-act="focus">Pokaż</button>
-          <button type="button" class="btn small" data-act="edit">Edytuj</button>
-          <button type="button" class="btn small danger" data-act="delete">Usuń</button>
+          <button type="button" class="btn small" data-act="focus">Show</button>
+          <button type="button" class="btn small" data-act="edit">Edit</button>
+          <button type="button" class="btn small danger" data-act="delete">Delete</button>
         </div>`;
       li.querySelector('[data-act="focus"]').addEventListener("click", () => focusPoint(pt.id));
       li.querySelector('[data-act="edit"]').addEventListener("click", () => openEdit(pt.id));
@@ -318,7 +318,7 @@
   function setAddMode(on) {
     addMode = on;
     btnAdd.classList.toggle("active", on);
-    btnAdd.textContent = on ? "Anuluj dodawanie" : "Dodaj punkt";
+    btnAdd.textContent = on ? "Cancel" : "Add point";
     modeHint.classList.toggle("visible", on);
     map.getContainer().style.cursor = on ? "crosshair" : "";
   }
@@ -329,7 +329,7 @@
   modal.addEventListener("click", (e) => { if (e.target === modal) { closeModal(); setAddMode(false); } });
   form.addEventListener("submit", (e) => {
     e.preventDefault();
-    const title = titleInput.value.trim() || "Bez nazwy";
+    const title = titleInput.value.trim() || "Untitled";
     const notes = notesInput.value.trim();
     const tag = tagInput.value;
     if (editingId) {
@@ -344,12 +344,12 @@
     const pt = points.find((p) => p.id === id);
     if (!pt) return;
     editingId = id; pendingLatLng = null;
-    modalTitle.textContent = "Edytuj punkt";
+    modalTitle.textContent = "Edit point";
     titleInput.value = pt.title; notesInput.value = pt.notes || ""; tagInput.value = TAGS.includes(pt.tag) ? pt.tag : "inny";
     openModal();
   }
   function deletePoint(id) {
-    if (!confirm("Usunąć ten punkt?")) return;
+    if (!confirm("Delete this point?")) return;
     points = points.filter((p) => p.id !== id);
     savePoints(); renderMarkers(); renderList();
   }
@@ -357,7 +357,7 @@
     const blob = new Blob([JSON.stringify(points, null, 2)], { type: "application/json" });
     const a = document.createElement("a");
     a.href = URL.createObjectURL(blob);
-    a.download = "siedlisko-punkty.json";
+    a.download = "siedliszcze-points.json";
     a.click();
     URL.revokeObjectURL(a.href);
   });
@@ -368,14 +368,14 @@
     try {
       const text = await file.text();
       const data = JSON.parse(text);
-      if (!Array.isArray(data)) throw new Error("Oczekiwano tablicy JSON");
+      if (!Array.isArray(data)) throw new Error("Expected JSON array");
       points = data.map((p) => ({
-        id: p.id || uid(), title: String(p.title || "Bez nazwy"), notes: String(p.notes || ""),
+        id: p.id || uid(), title: String(p.title || "Untitled"), notes: String(p.notes || ""),
         tag: TAGS.includes(p.tag) ? p.tag : "inny", lat: Number(p.lat), lng: Number(p.lng),
         createdAt: p.createdAt || new Date().toISOString()
       })).filter((p) => Number.isFinite(p.lat) && Number.isFinite(p.lng));
       savePoints(); renderMarkers(); renderList();
-    } catch (err) { alert("Nie udało się zaimportować pliku: " + err.message); }
+    } catch (err) { alert("Import failed: " + err.message); }
     importInput.value = "";
   });
 
@@ -393,8 +393,8 @@
 
   function showAuth(mode) {
     authMode = mode;
-    authTitle.textContent = mode === "login" ? "Zaloguj" : "Załóż konto";
-    authSubmit.textContent = mode === "login" ? "Zaloguj" : "Załóż";
+    authTitle.textContent = mode === "login" ? "Log in" : "Sign up";
+    authSubmit.textContent = mode === "login" ? "Log in" : "Sign up";
     authNameRow.style.display = mode === "register" ? "" : "none";
     authRoleRow.style.display = mode === "register" ? "" : "none";
     authMessage.textContent = "";
@@ -422,7 +422,7 @@
         options: { data: { display_name: name, role } }
       });
       if (error) { authMessage.textContent = error.message; return; }
-      authMessage.textContent = "Sprawdź skrzynkę — potwierdź email.";
+      authMessage.textContent = "Check your email to confirm.";
     }
     hideAuth();
   });
@@ -432,9 +432,9 @@
   });
 
   function roleLabel(role) {
-    if (role === "owner") return "właściciel";
-    if (role === "commercial") return "biuro";
-    return "użytkownik";
+    if (role === "owner") return "owner";
+    if (role === "commercial") return "agency";
+    return "user";
   }
 
   async function refreshAuthUI() {
@@ -475,7 +475,7 @@
     offerMode = on;
     if (on) setAddMode(false);
     btnAddOffer.classList.toggle("active", on);
-    btnAddOffer.textContent = on ? "Anuluj ofertę" : "Dodaj ofertę";
+    btnAddOffer.textContent = on ? "Cancel offer" : "Add offer";
     map.getContainer().style.cursor = on ? "crosshair" : "";
   }
 
@@ -494,7 +494,7 @@
     if (!addMode) return;
     pendingLatLng = e.latlng;
     editingId = null;
-    modalTitle.textContent = "Nowy punkt";
+    modalTitle.textContent = "New point";
     titleInput.value = "";
     notesInput.value = "";
     tagInput.value = "kandydat";
@@ -537,6 +537,63 @@
     offerLatLng = null;
     loadCommercialOffers();
   });
+
+  // i18n
+  let currentLang = localStorage.getItem("siedliszcze-lang") || "en";
+  function t(key) {
+    return (I18N[currentLang] && I18N[currentLang][key]) || I18N.en[key] || key;
+  }
+  function applyI18n() {
+    const mapIds = {
+      "site-title": "title",
+      "site-subtitle": "subtitle",
+      "i18n-account": "account",
+      "btn-show-login": "login",
+      "btn-show-register": "register",
+      "btn-logout": "logout",
+      "btn-add-offer": "addOffer",
+      "i18n-layers": "layers",
+      "i18n-filter": "filter",
+      "i18n-max-price": "maxPrice",
+      "i18n-min-area": "minArea",
+      "btn-reset-filters": "clearFilters",
+      "i18n-listings": "listings",
+      "i18n-criteria": "criteria",
+      "i18n-mypoints": "myPoints",
+      "btn-add-point": "addPoint",
+      "btn-export": "export",
+      "btn-import": "import"
+    };
+    Object.entries(mapIds).forEach(([id, key]) => {
+      const el = document.getElementById(id);
+      if (el) el.textContent = t(key);
+    });
+    const disc = document.getElementById("i18n-disclaimer");
+    if (disc) disc.textContent = t("disclaimer");
+    document.documentElement.lang = currentLang;
+    document.querySelectorAll(".lang-btn").forEach(b => b.classList.toggle("active", b.dataset.lang === currentLang));
+  }
+  function buildLangSwitcher() {
+    const box = document.getElementById("lang-switcher");
+    if (!box || typeof LANG_FLAGS === "undefined") return;
+    box.innerHTML = "";
+    LANG_FLAGS.forEach(l => {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "lang-btn";
+      btn.dataset.lang = l.code;
+      btn.title = l.name;
+      btn.textContent = l.flag;
+      btn.addEventListener("click", () => {
+        currentLang = l.code;
+        localStorage.setItem("siedliszcze-lang", currentLang);
+        applyI18n();
+      });
+      box.appendChild(btn);
+    });
+  }
+  buildLangSwitcher();
+  applyI18n();
 
   const sidebar = document.getElementById("sidebar");
   document.getElementById("mobile-toggle").addEventListener("click", () => sidebar.classList.toggle("open"));
