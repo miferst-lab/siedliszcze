@@ -168,6 +168,44 @@
     </div>
   </div>
 
+  <div class="modal-backdrop" id="offer-modal" role="dialog" aria-modal="true">
+    <div class="modal">
+      <h2>Nowa oferta</h2>
+      <form id="offer-form">
+        <div class="form-row">
+          <label for="offer-title">Tytuł</label>
+          <input id="offer-title" type="text" required maxlength="120" placeholder="np. Działka 1,5 ha, las" />
+        </div>
+        <div class="form-row">
+          <label for="offer-price">Cena (PLN)</label>
+          <input id="offer-price" type="number" min="0" step="1000" />
+        </div>
+        <div class="form-row">
+          <label for="offer-area">Powierzchnia (m²)</label>
+          <input id="offer-area" type="number" min="0" step="100" />
+        </div>
+        <div class="form-row">
+          <label for="offer-location">Lokalizacja (opis)</label>
+          <input id="offer-location" type="text" maxlength="120" placeholder="np. gm. Czarnków" />
+        </div>
+        <div class="form-row">
+          <label for="offer-note">Notatka</label>
+          <textarea id="offer-note" maxlength="500" placeholder="Dostęp, media, uwagi"></textarea>
+        </div>
+        <div class="form-row">
+          <label for="offer-url">Link do ogłoszenia</label>
+          <input id="offer-url" type="url" placeholder="https://..." />
+        </div>
+        <p id="offer-coords" style="font-size:0.8rem;color:var(--muted);margin:0 0 0.6rem"></p>
+        <div class="modal-actions">
+          <button type="button" class="btn" id="offer-cancel">Anuluj</button>
+          <button type="submit" class="btn primary">Zapisz ofertę</button>
+        </div>
+      </form>
+      <p id="offer-message" style="font-size:0.82rem;color:#9b1c1c;margin:0.6rem 0 0"></p>
+    </div>
+  </div>
+
   <div class="modal-backdrop" id="auth-modal" role="dialog" aria-modal="true">
     <div class="modal">
       <h2 id="auth-modal-title">Zaloguj</h2>
