@@ -15,7 +15,7 @@
     inny: "inny"
   };
 
-  const map = L.map("map", { center: [52.1, 19.4], zoom: 6, zoomControl: true });
+  const map = L.map("map", { center: [50.0, 15.0], zoom: 5, zoomControl: true });
 
   L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}", {
     maxZoom: 19,
@@ -54,6 +54,12 @@
   const groundLayer = L.geoJSON(typeof GROUND_ZONES !== "undefined" ? GROUND_ZONES : emptyFC, { style: styleGround, onEachFeature: bindZonePopup });
   const protectLayer = L.geoJSON(typeof PROTECT_ZONES !== "undefined" ? PROTECT_ZONES : emptyFC, { style: styleProtect, onEachFeature: bindZonePopup });
   const climateLayer = L.geoJSON(typeof CLIMATE_ZONES !== "undefined" ? CLIMATE_ZONES : emptyFC, { style: styleClimate, onEachFeature: bindZonePopup });
+
+  const euGeoLayer = L.geoJSON(typeof EU_GEO_RISK_ZONES !== "undefined" ? EU_GEO_RISK_ZONES : emptyFC, { style: styleGeo, onEachFeature: bindZonePopup });
+  const euFloodLayer = L.geoJSON(typeof EU_FLOOD_ZONES !== "undefined" ? EU_FLOOD_ZONES : emptyFC, { style: styleFlood, onEachFeature: bindZonePopup });
+  const euWindLayer = L.geoJSON(typeof EU_WIND_ZONES !== "undefined" ? EU_WIND_ZONES : emptyFC, { style: styleWind, onEachFeature: bindZonePopup });
+  const euPreferredLayer = L.geoJSON(typeof EU_PREFERRED_ZONES !== "undefined" ? EU_PREFERRED_ZONES : emptyFC, { style: stylePreferred, onEachFeature: bindZonePopup });
+
   const assetLayer = L.geoJSON(typeof ASSET_ZONES !== "undefined" ? ASSET_ZONES : emptyFC, { style: styleAsset, onEachFeature: bindZonePopup });
 
   const HIGHWAY_BUFFER_DEG = 0.072;
@@ -232,7 +238,8 @@
     flood: floodLayer, wind: windLayer, geo: geoLayer, highway: highwayLayer,
     preferred: preferredLayer, listings: listingsLayer, eco: ecoLayer, user: userLayer,
     noise: noiseLayer, ground: groundLayer, protect: protectLayer, climate: climateLayer, asset: assetLayer,
-    commercial: commercialLayer
+    commercial: commercialLayer,
+    "eu-geo": euGeoLayer, "eu-flood": euFloodLayer, "eu-wind": euWindLayer, "eu-preferred": euPreferredLayer
   };
   document.querySelectorAll("[data-layer]").forEach((input) => {
     const key = input.dataset.layer;
