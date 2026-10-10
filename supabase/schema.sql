@@ -1,12 +1,12 @@
 -- Siedliszcze — schemat Supabase
 -- Uruchom w SQL Editor w projekcie Supabase.
 
--- Profile użytkowników (rola: user | commercial)
+-- Profile użytkowników (rola: user | commercial | owner)
 create table if not exists public.profiles (
   id uuid primary key references auth.users(id) on delete cascade,
   email text,
   display_name text,
-  role text not null default 'user' check (role in ('user', 'commercial')),
+  role text not null default 'user' check (role in ('user', 'commercial', 'owner')),
   company_name text,
   contact_phone text,
   contact_email text,
@@ -39,14 +39,14 @@ create index if not exists offers_active_idx on public.offers(is_active) where i
 alter table public.profiles enable row level security;
 alter table public.offers enable row level security;
 
--- Profile: każdy widzi swoje, admin może wszystko (na start prosty model)
+-- Profile: każdy widzi swoje
 create policy "profiles_select_own" on public.profiles
   for select using (auth.uid() = id);
 
 create policy "profiles_update_own" on public.profiles
   for update using (auth.uid() = id);
 
--- Oferty: publiczne odczyt aktywnych, właściciel zarządza swoimi
+-- Oferty: publiczne odczyt aktywnych, właściciel zarządza swoimi, owner może wszystko
 create policy "offers_select_public" on public.offers
   for select using (is_active = true);
 
@@ -55,15 +55,27 @@ create policy "offers_insert_own" on public.offers
     auth.uid() = owner_id
     and exists (
       select 1 from public.profiles p
-      where p.id = auth.uid() and p.role = 'commercial'
+      where p.id = auth.uid() and p.role in ('commercial', 'owner')
     )
   );
 
 create policy "offers_update_own" on public.offers
-  for update using (auth.uid() = owner_id);
+  for update using (
+    auth.uid() = owner_id
+    or exists (
+      select 1 from public.profiles p
+      where p.id = auth.uid() and p.role = 'owner'
+    )
+  );
 
 create policy "offers_delete_own" on public.offers
-  for delete using (auth.uid() = owner_id);
+  for delete using (
+    auth.uid() = owner_id
+    or exists (
+      select 1 from public.profiles p
+      where p.id = auth.uid() and p.role = 'owner'
+    )
+  );
 
 -- Funkcja: automatyczne tworzenie profilu po rejestracji
 create or replace function public.handle_new_user()
