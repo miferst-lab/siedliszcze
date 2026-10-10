@@ -22,6 +22,20 @@
         <p class="listings-stamp" id="listings-stamp">Oferty zebrane: 29.09.2026 (próba rynkowa, sprawdzaj linki)</p>
       </header>
 
+      <section class="panel" id="auth-panel">
+        <h2>Konto</h2>
+        <div id="auth-logged-out">
+          <p style="font-size:0.85rem;color:var(--muted);margin:0 0 0.6rem">Zaloguj się, aby zapisywać punkty w chmurze. Konto komercyjne pozwala dodawać oferty widoczne na mapie.</p>
+          <button type="button" class="btn primary" id="btn-show-login">Zaloguj</button>
+          <button type="button" class="btn" id="btn-show-register">Załóż konto</button>
+        </div>
+        <div id="auth-logged-in" style="display:none">
+          <p id="auth-user-info" style="font-size:0.85rem;margin:0 0 0.5rem"></p>
+          <button type="button" class="btn" id="btn-logout">Wyloguj</button>
+          <button type="button" class="btn primary" id="btn-add-offer" style="display:none">Dodaj ofertę</button>
+        </div>
+      </section>
+
       <section class="disclaimer">
         <strong>Uwaga:</strong> strefy są przybliżonymi heurystykami, nie oficjalnymi mapami zagrożeń.
         Oferty działek to próbka rynkowa — ceny i dostępność mogą się zmienić.
@@ -48,6 +62,7 @@
           <li><label><input type="checkbox" data-layer="climate" /><span class="swatch climate"></span> Smog i zacienione doliny</label></li>
           <li><label><input type="checkbox" data-layer="asset" /><span class="swatch asset"></span> Atuty: las i gleba</label></li>
           <li><label><input type="checkbox" data-layer="listings" checked /><span class="swatch listings"></span> Oferty działek</label></li>
+          <li><label><input type="checkbox" data-layer="commercial" /><span class="swatch listings"></span> Oferty biur</label></li>
           <li><label><input type="checkbox" data-layer="eco" checked /><span class="swatch eco"></span> Punkty eco / off-grid</label></li>
           <li><label><input type="checkbox" data-layer="user" checked /><span class="swatch user"></span> Moje punkty</label></li>
         </ul>
@@ -153,7 +168,38 @@
     </div>
   </div>
 
+  <div class="modal-backdrop" id="auth-modal" role="dialog" aria-modal="true">
+    <div class="modal">
+      <h2 id="auth-modal-title">Zaloguj</h2>
+      <form id="auth-form">
+        <div class="form-row" id="auth-name-row" style="display:none">
+          <label for="auth-name">Nazwa / nazwa biura</label>
+          <input id="auth-name" type="text" maxlength="80" />
+        </div>
+        <div class="form-row">
+          <label for="auth-email">Email</label>
+          <input id="auth-email" type="email" required />
+        </div>
+        <div class="form-row">
+          <label for="auth-password">Hasło</label>
+          <input id="auth-password" type="password" required minlength="6" />
+        </div>
+        <div class="form-row" id="auth-role-row" style="display:none">
+          <label>Rodzaj konta</label>
+          <label><input type="radio" name="role" value="user" checked /> Zwykły użytkownik</label>
+          <label><input type="radio" name="role" value="commercial" /> Biuro / komercyjne</label>
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn" id="auth-cancel">Anuluj</button>
+          <button type="submit" class="btn primary" id="auth-submit">Zaloguj</button>
+        </div>
+      </form>
+      <p id="auth-message" style="font-size:0.82rem;color:#9b1c1c;margin:0.6rem 0 0"></p>
+    </div>
+  </div>
+
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="data/zones.js"></script>
   <script src="data/extra-zones.js"></script>
   <script src="data/listings.js"></script>
