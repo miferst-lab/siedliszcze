@@ -316,16 +316,6 @@
     map.getContainer().style.cursor = on ? "crosshair" : "";
   }
   btnAdd.addEventListener("click", () => setAddMode(!addMode));
-  map.on("click", (e) => {
-    if (!addMode) return;
-    pendingLatLng = e.latlng;
-    editingId = null;
-    modalTitle.textContent = "Nowy punkt";
-    titleInput.value = "";
-    notesInput.value = "";
-    tagInput.value = "kandydat";
-    openModal();
-  });
   function openModal() { modal.classList.add("open"); titleInput.focus(); }
   function closeModal() { modal.classList.remove("open"); pendingLatLng = null; editingId = null; }
   document.getElementById("modal-cancel").addEventListener("click", () => { closeModal(); setAddMode(false); });
@@ -464,6 +454,82 @@
   supabase.auth.onAuthStateChange(() => { refreshAuthUI(); loadCommercialOffers(); });
   refreshAuthUI();
   loadCommercialOffers();
+
+  // Offer mode
+  let offerMode = false;
+  let offerLatLng = null;
+  const btnAddOffer = document.getElementById("btn-add-offer");
+  const offerModal = document.getElementById("offer-modal");
+  const offerForm = document.getElementById("offer-form");
+  const offerCoords = document.getElementById("offer-coords");
+  const offerMessage = document.getElementById("offer-message");
+
+  function setOfferMode(on) {
+    offerMode = on;
+    if (on) setAddMode(false);
+    btnAddOffer.classList.toggle("active", on);
+    btnAddOffer.textContent = on ? "Anuluj ofertę" : "Dodaj ofertę";
+    map.getContainer().style.cursor = on ? "crosshair" : "";
+  }
+
+  btnAddOffer.addEventListener("click", () => setOfferMode(!offerMode));
+
+  map.on("click", (e) => {
+    if (offerMode) {
+      offerLatLng = e.latlng;
+      offerCoords.textContent = offerLatLng.lat.toFixed(5) + ", " + offerLatLng.lng.toFixed(5);
+      offerMessage.textContent = "";
+      offerForm.reset();
+      offerModal.classList.add("open");
+      setOfferMode(false);
+      return;
+    }
+    if (!addMode) return;
+    pendingLatLng = e.latlng;
+    editingId = null;
+    modalTitle.textContent = "Nowy punkt";
+    titleInput.value = "";
+    notesInput.value = "";
+    tagInput.value = "kandydat";
+    openModal();
+  });
+
+  document.getElementById("offer-cancel").addEventListener("click", () => {
+    offerModal.classList.remove("open");
+    offerLatLng = null;
+  });
+  offerModal.addEventListener("click", (e) => {
+    if (e.target === offerModal) {
+      offerModal.classList.remove("open");
+      offerLatLng = null;
+    }
+  });
+
+  offerForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    if (!offerLatLng || !currentUser) return;
+    offerMessage.textContent = "";
+    const payload = {
+      owner_id: currentUser.id,
+      title: document.getElementById("offer-title").value.trim(),
+      price: document.getElementById("offer-price").value ? Number(document.getElementById("offer-price").value) : null,
+      area_m2: document.getElementById("offer-area").value ? Number(document.getElementById("offer-area").value) : null,
+      location_text: document.getElementById("offer-location").value.trim() || null,
+      note: document.getElementById("offer-note").value.trim() || null,
+      url: document.getElementById("offer-url").value.trim() || null,
+      lat: offerLatLng.lat,
+      lng: offerLatLng.lng,
+      is_active: true
+    };
+    const { error } = await supabase.from("offers").insert(payload);
+    if (error) {
+      offerMessage.textContent = error.message;
+      return;
+    }
+    offerModal.classList.remove("open");
+    offerLatLng = null;
+    loadCommercialOffers();
+  });
 
   const sidebar = document.getElementById("sidebar");
   document.getElementById("mobile-toggle").addEventListener("click", () => sidebar.classList.toggle("open"));
