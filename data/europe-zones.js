@@ -218,6 +218,38 @@ const EU_FLOOD_ZONES = {
           [19.8, 44.9], [19.0, 45.2], [19.0, 45.5]
         ]]
       }
+    },
+    {
+      type: "Feature",
+      properties: {
+        name: "Vardar / Struma lowlands (North Macedonia)",
+        risk: "flood",
+        level: "medium",
+        description: "Approximate river valleys in North Macedonia — flash-flood risk."
+      },
+      geometry: {
+        type: "Polygon",
+        coordinates: [[
+          [21.0, 42.0], [22.0, 42.2], [22.5, 41.5], [22.0, 41.0],
+          [21.2, 41.2], [20.8, 41.7], [21.0, 42.0]
+        ]]
+      }
+    },
+    {
+      type: "Feature",
+      properties: {
+        name: "Lake Skadar / Morača (Montenegro)",
+        risk: "flood",
+        level: "medium",
+        description: "Lowlands around Lake Skadar and Morača valley."
+      },
+      geometry: {
+        type: "Polygon",
+        coordinates: [[
+          [19.0, 42.4], [19.5, 42.5], [19.8, 42.2], [19.5, 42.0],
+          [19.0, 42.1], [18.8, 42.3], [19.0, 42.4]
+        ]]
+      }
     }
   ]
 };
@@ -320,6 +352,21 @@ const EU_WIND_ZONES = {
           [13.5, 45.5], [15.0, 45.0], [16.5, 44.5], [17.5, 43.5],
           [18.5, 42.5], [18.0, 42.0], [16.5, 42.5], [15.0, 43.5],
           [14.0, 44.5], [13.5, 45.2], [13.5, 45.5]
+        ]]
+      }
+    },
+    {
+      type: "Feature",
+      properties: {
+        name: "Montenegro / North Macedonia mountains",
+        risk: "wind",
+        description: "Mountain belts of Montenegro and North Macedonia — strong local winds."
+      },
+      geometry: {
+        type: "Polygon",
+        coordinates: [[
+          [18.5, 43.0], [19.5, 43.2], [20.5, 42.5], [21.5, 42.0],
+          [21.0, 41.5], [20.0, 41.8], [19.0, 42.5], [18.5, 43.0]
         ]]
       }
     }
@@ -522,6 +569,36 @@ const EU_PREFERRED_ZONES = {
         coordinates: [[
           [17.5, 44.5], [18.2, 44.7], [18.8, 44.2], [18.5, 43.8],
           [17.8, 43.9], [17.5, 44.2], [17.5, 44.5]
+        ]]
+      }
+    },
+    {
+      type: "Feature",
+      properties: {
+        name: "North Macedonia — inland (Pelagonia / Prilep)",
+        preferred: true,
+        description: "Quieter inland areas of North Macedonia."
+      },
+      geometry: {
+        type: "Polygon",
+        coordinates: [[
+          [21.2, 41.5], [21.8, 41.6], [22.0, 41.2], [21.5, 40.9],
+          [21.0, 41.1], [21.2, 41.5]
+        ]]
+      }
+    },
+    {
+      type: "Feature",
+      properties: {
+        name: "Montenegro — inland (Nikšić / Cetinje area)",
+        preferred: true,
+        description: "Quieter inland Montenegro, away from the coast."
+      },
+      geometry: {
+        type: "Polygon",
+        coordinates: [[
+          [18.7, 42.8], [19.2, 42.9], [19.4, 42.5], [19.0, 42.3],
+          [18.7, 42.5], [18.7, 42.8]
         ]]
       }
     }
